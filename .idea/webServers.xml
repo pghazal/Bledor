@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="da4ca1b7-0212-4817-ae6a-1fd7d3269eb2" name="MAMP Apache" url="http://localhost/Bledor/web/">
+        <fileTransfer port="0" mountedRoot="E:\Programmes\MAMP\htdocs\Bledor\web" accessType="MOUNT" />
+      </webServer>
+    </option>
+  </component>
+</project>

@@ -1,0 +1,47 @@
+# Default
+
+pg_platform_homepage:
+    path:     /
+    defaults:
+         _controller: PGPlatformBundle:Default:index
+
+# Products
+
+pg_platform_products:
+    path:     /products/{id}
+    defaults: 
+        _controller: PGPlatformBundle:Product:products
+        id:          0
+    requirements:
+        id: \d+
+
+pg_platform_products_with_end_slash:
+    path:     /products/
+    defaults: 
+        _controller: PGPlatformBundle:Product:products
+
+pg_platform_products_add:
+    path:     /products/add
+    defaults:
+         _controller: PGPlatformBundle:Product:add
+
+pg_platform_products_edit:
+    path:     /products/edit/{id}
+    defaults: 
+         _controller: PGPlatformBundle:Product:edit
+    requirements:
+        id: \d+
+
+pg_platform_products_delete:
+    path:     /products/delete/{id}
+    defaults: 
+         _controller: PGPlatformBundle:Product:delete
+    requirements:
+        id: \d+
+
+# Operations
+
+pg_platform_operations_add:
+    path:    /operations/add
+    defaults:
+        _controller: PGPlatformBundle:Operation:add

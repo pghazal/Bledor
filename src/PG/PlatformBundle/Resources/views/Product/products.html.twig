@@ -1,0 +1,49 @@
+{% extends "PGPlatformBundle::layout.html.twig" %}
+
+{% block title %}
+  Nos produits - {{ parent() }}
+{% endblock %}
+
+{% block pgplatform_body %}
+
+  <a href="{{ path('pg_platform_homepage') }}" class="btn btn-default">
+    <i class="glyphicon glyphicon-chevron-left"></i>
+    Retour à l'accueil
+  </a>
+
+
+  <ul>
+  {% for product in products %}
+    <li>
+        <h2>{{ product.name }}</h2>
+
+        {% if product.image is not null %}
+          <img 
+            src="{{ asset(product.image.webPath) }}"
+            alt="{{ product.image.alt }}"
+            style="width:64px;height:64px;"
+          />
+        {% endif %}
+
+        {% if product.description is not null %}
+          <div class="well">
+            {{ product.description }}
+          </div>
+        {% endif %}
+
+        {% if is_granted('ROLE_ADMIN') %}
+          <a href="{{ path('pg_platform_products_edit', {'id': product.id}) }}" class="btn btn-default">
+            <i class="glyphicon glyphicon-edit"></i>
+            Modifier
+          </a>
+
+          <a href="{{ path('pg_platform_products_delete', {'id': product.id}) }}" class="btn btn-danger">
+            <i class="glyphicon glyphicon-trash"></i>
+            Supprimer
+          </a>
+        {% endif %}
+    </li>
+  {% endfor %}
+  </ul>
+
+{% endblock %}
