@@ -1,12 +1,12 @@
 services:
-    pg_platform.email.operation_mailer:
-         class: PG\PlatformBundle\Email\OperationMailer
+    pg_platform.email.command_mailer:
+         class: PG\PlatformBundle\Email\CommandMailer
          arguments:
              - "@mailer"
 
-    oc_platform.doctrine_listener.operation_creation:
-         class: PG\PlatformBundle\DoctrineListener\OperationCreationListener
+    pg_platform.doctrine_listener.command_creation:
+         class: PG\PlatformBundle\DoctrineListener\CommandCreationListener
          arguments:
-             - "@pg_platform.email.operation_mailer"
+             - "@pg_platform.email.command_mailer"
          tags:
              - { name: doctrine.event_listener, event: postPersist }

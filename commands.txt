@@ -1,0 +1,26 @@
+// Crée la base de données
+php bin/console doctrine:database:create
+
+// Génération d'une entité
+php bin/console doctrine:generate:entity
+
+// Affichage de la maj de la BDD
+php bin/console doctrine:schema:update --dump-sql
+
+// Maj la BDD
+php bin/console doctrine:schema:update --force
+
+// Génère une entité particulière
+php bin/console doctrine:generate:entities OCPlatformBundle:Advert
+
+// Charge toutes les données via Fixtures (Attention: dump avant tout la BDD)
+php bin/console doctrine:fixtures:load
+
+// Créer un User avec FOS
+php bin/console fos:user:create
+
+// Supprimer le cache
+php bin/console cache:clear --no-warmup
+
+// Supprimer le cache en prod
+rm -rf var/cache/prod/*

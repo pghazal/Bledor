@@ -5,13 +5,13 @@ namespace PG\PlatformBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Operation
+ * Command
  *
- * @ORM\Table(name="operation")
- * @ORM\Entity(repositoryClass="PG\PlatformBundle\Repository\OperationRepository")
+ * @ORM\Table(name="command")
+ * @ORM\Entity(repositoryClass="PG\PlatformBundle\Repository\CommandRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class Operation
+class Command
 {
     /**
      * @var int
@@ -30,9 +30,17 @@ class Operation
     private $date;
 
     /**
+     * @var \DateTime
+     *
      * @ORM\Column(name="updated_at", type="datetime", nullable=true)
      */
-    private $updatedAt; 
+    private $updatedAt;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="PG\PlatformBundle\Entity\Client")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $client;
 
     /**
      * Get id
@@ -49,7 +57,7 @@ class Operation
      *
      * @param \DateTime $date
      *
-     * @return Operation
+     * @return Command
      */
     public function setDate($date)
     {
@@ -73,7 +81,7 @@ class Operation
      *
      * @param \DateTime $updatedAt
      *
-     * @return Operation
+     * @return Command
      */
     public function setUpdatedAt($updatedAt)
     {
@@ -98,5 +106,29 @@ class Operation
     public function updatedAtDate()
     {
         $this->setUpdatedAt(new \Datetime());
+    }
+
+    /**
+     * Set client
+     *
+     * @param \PG\PlatformBundle\Entity\Client $client
+     *
+     * @return Command
+     */
+    public function setClient(\PG\PlatformBundle\Entity\Client $client)
+    {
+        $this->client = $client;
+
+        return $this;
+    }
+
+    /**
+     * Get client
+     *
+     * @return \PG\PlatformBundle\Entity\Client
+     */
+    public function getClient()
+    {
+        return $this->client;
     }
 }

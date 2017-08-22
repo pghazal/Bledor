@@ -2,9 +2,9 @@
 
 namespace PG\PlatformBundle\Email;
 
-use PG\PlatformBundle\Entity\Operation;
+use PG\PlatformBundle\Entity\Command;
 
-class OperationMailer
+class CommandMailer
 {
   /**
    * @var \Swift_Mailer
@@ -16,15 +16,15 @@ class OperationMailer
     $this->mailer = $mailer;
   }
 
-  public function sendNewNotification(Operation $operation)
+  public function sendNewNotification(Command $command)
   {
     $message = new \Swift_Message(
-      'Nouvelle candidature',
-      'Vous avez reçu une nouvelle candidature.'
+      'Nouvelle commande',
+      'Vous avez reçu une nouvelle commande.'
     );
 
     $message
-      ->addTo('pg.ghazal@gmail.com')
+      ->addTo($command->getClient()->getEmail())
       ->addFrom('pg.ghazal-sender@gmail.com');
 
     $this->mailer->send($message);

@@ -2,20 +2,20 @@
 
 {% block pgplatform_body %}
 
-  <h2>Modifier une annonce</h2>
+    <h2>Modifier une annonce</h2>
 
-  {{ include("PGPlatformBundle:Product:form.html.twig") }}
+    {{ include("PGPlatformBundle:Product:form.html.twig") }}
 
-  <p>
-    Vous éditez une annonce déjà existante, merci de ne pas changer
-    l'esprit général de l'annonce déjà publiée.
-  </p>
+    <p>
+        Vous éditez une annonce déjà existante, merci de ne pas changer
+        l'esprit général de l'annonce déjà publiée.
+    </p>
 
-  {#<p>
-    <a href="{{ path('pg_platform_products', {'id': product.id}) }}" class="btn btn-default">
-      <i class="glyphicon glyphicon-chevron-left"></i>
-      Retour à l'annonce
-    </a>
-  </p> #}
+    {#<p>
+      <a href="{{ path('pg_platform_products', {'id': product.id}) }}" class="btn btn-default">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Retour à l'annonce
+      </a>
+    </p> #}
 
 {% endblock %}

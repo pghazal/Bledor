@@ -1,14 +1,14 @@
 {% extends "PGPlatformBundle::layout.html.twig" %}
 
-{% block body %}
+{% block pgplatform_body %}
 
-  <h2>Ajouter une opération</h2>
+    <h2>Ajouter une opération</h2>
 
-  {{ include("PGPlatformBundle:Operation:form.html.twig") }}
+    {{ include("PGPlatformBundle:Operation:form.html.twig") }}
 
-  <p>
-    Attention : cette annonce sera ajoutée directement
-    sur la page d'accueil après validation du formulaire.
-  </p>
+    <p>
+        Attention : cette annonce sera ajoutée directement
+        sur la page d'accueil après validation du formulaire.
+    </p>
 
 {% endblock %}

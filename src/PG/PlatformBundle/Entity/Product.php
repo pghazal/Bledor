@@ -39,13 +39,6 @@ class Product
      */
     private $description;
 
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="price", type="float")
-     * @Assert\NotBlank()
-     */
-    private $price;
 
     /**
      * @ORM\OneToOne(targetEntity="PG\PlatformBundle\Entity\Image", cascade={"persist", "remove"})
