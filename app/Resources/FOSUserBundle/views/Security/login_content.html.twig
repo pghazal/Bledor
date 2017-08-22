@@ -9,23 +9,23 @@
 
     <h2 class="form-signin-heading">Connectez-vous</h2>
 
-    <label for="username" class="sr-only">{{ 'security.login.username'|trans }}</label>
-    <input type="text"
-           class="form-control"
-           id="username"
-           name="_username"
-           value="{{ last_username }}"
-           placeholder="adresse e-mail"
-           required
-           autofocus/>
+    <div class="input-group">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+        <label for="username" class="sr-only">{{ 'security.login.username'|trans }}</label>
+        <input id="username" type="text" class="form-control" name="_username" value="{{ last_username }}"
+               placeholder="adresse e-mail" required autofocus>
+    </div>
 
-    <label for="password" class="sr-only">{{ 'security.login.password'|trans }}</label>
-    <input type="password"
-           class="form-control"
-           id="password"
-           name="_password"
-           placeholder="mot de passe"
-           required/>
+    <div class="input-group">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+        <label for="password" class="sr-only">{{ 'security.login.password'|trans }}</label>
+        <input type="password"
+               class="form-control"
+               id="password"
+               name="_password"
+               placeholder="mot de passe"
+               required/>
+    </div>
 
     <div class="checkbox">
         <label>
@@ -36,9 +36,11 @@
         </label>
     </div>
 
-    <input type="submit"
-           class="btn btn-lg btn-primary btn-block"
-           id="_submit"
-           name="_submit"
-           value="{{ 'security.login.submit'|trans }}"/>
+    <button type="submit"
+            class="btn btn-lg btn-primary btn-block"
+            id="_submit"
+            name="_submit">
+        <i class="glyphicon glyphicon-log-in"></i> {{ 'security.login.submit'|trans }}
+    </button>
+
 </form>
