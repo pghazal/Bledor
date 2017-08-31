@@ -23,4 +23,4 @@ php bin/console fos:user:create
 php bin/console cache:clear --no-warmup
 
 // Supprimer le cache en prod
-rm -rf var/cache/prod/*
+php bin/console cache:clear --no-warmup -e prod

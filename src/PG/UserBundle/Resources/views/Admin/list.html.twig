@@ -1,0 +1,33 @@
+{% extends "PGUserBundle::base.html.twig" %}
+
+{% block title %}Administration{% endblock %}
+
+{% block pguser_body %}
+
+    <h1>Liste des utilisateurs</h1>
+
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>username</th>
+            <th>email</th>
+            <th>last login</th>
+            <th>role</th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for user in users %}
+            <tr>
+                <td>{{ user.username|e }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.lastLogin.format('d/m/Y H:i:s') }}</td>
+                <td>{{ user.roles[0] }}</td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+{% endblock %}

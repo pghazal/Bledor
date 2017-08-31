@@ -7,6 +7,10 @@ pg_platform:
     resource: "@PGPlatformBundle/Resources/config/routing.yml"
     prefix:   /platform
 
+pg_user:
+    resource: "@PGUserBundle/Resources/config/routing.yml"
+    prefix:   /admin
+
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
 

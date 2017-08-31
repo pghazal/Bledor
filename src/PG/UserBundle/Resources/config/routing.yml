@@ -1,0 +1,4 @@
+
+list:
+    path:     /list
+    defaults: { _controller: PGUserBundle:Admin:list }
