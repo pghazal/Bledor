@@ -100,11 +100,11 @@ class ProductCommand
     /**
      * Set quantity
      *
-     * @param \int $quantity
+     * @param $quantity
      *
      * @return ProductCommand
      */
-    public function setQuantity(\int $quantity)
+    public function setQuantity($quantity)
     {
         $this->quantity = $quantity;
 
@@ -114,7 +114,7 @@ class ProductCommand
     /**
      * Get quantity
      *
-     * @return \int
+     * @return integer
      */
     public function getQuantity()
     {
