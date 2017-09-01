@@ -1,4 +1,16 @@
 services:
-#    pg_user.example:
-#        class: PG\UserBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
+    pg_user.roles:
+        class: PG\UserBundle\Service\RolesHelper
+        arguments: ["%security.role_hierarchy.roles%"]
+
+    pg_user.user.form.type:
+        class: PG\UserBundle\Form\UserType
+        arguments: ["%fos_user.model.user.class%", "@pg_user.roles"]
+        tags:
+            - { name: form.type, alias: user_registration }
+
+    app.form.registration:
+            class: PG\UserBundle\Form\RegistrationType
+            arguments: ["%fos_user.model.user.class%", "@pg_user.roles"]
+            tags:
+                - { name: form.type, alias: app_user_registration }

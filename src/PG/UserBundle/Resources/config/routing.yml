@@ -1,4 +1,25 @@
 
-list:
-    path:     /list
+pg_user_list:
+    path:     /users
     defaults: { _controller: PGUserBundle:Admin:list }
+
+pg_user_list_with_end_slash:
+    path:     /users/
+    defaults:
+       { _controller: PGUserBundle:Admin:list }
+
+pg_user_add:
+    path:     /users/add
+    defaults: { _controller: PGUserBundle:Admin:add }
+
+pg_user_edit:
+    path:     /users/edit/{id}
+    defaults: { _controller: PGUserBundle:Admin:edit }
+    requirements:
+            id: \d+
+
+pg_user_delete:
+    path:     /users/delete/{id}
+    defaults: { _controller: PGUserBundle:Admin:delete }
+    requirements:
+            id: \d+

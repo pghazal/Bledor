@@ -1,0 +1,24 @@
+{% extends "PGUserBundle::base.html.twig" %}
+
+{% block pguser_body %}
+
+
+    <h2>Supprimer un utilisateur</h2>
+
+    <p>
+        Etes-vous certain de vouloir supprimer l'utilisateur "{{ user.username }} ({{ user.email }} )" ?
+    </p>
+
+    <form action="{{ path('pg_user_delete', {'id': user.id}) }}" method="post">
+        <input type="submit" value="Supprimer" class="btn btn-danger"/>
+        {{ form_rest(form) }}
+    </form>
+
+    <p>
+        <a href="{{ path('pg_user_list') }}" class="btn btn-default">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+            Retour liste users
+        </a>
+    </p>
+
+{% endblock %}

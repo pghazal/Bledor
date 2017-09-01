@@ -24,3 +24,6 @@ php bin/console cache:clear --no-warmup
 
 // Supprimer le cache en prod
 php bin/console cache:clear --no-warmup -e prod
+
+// Générer un formulaire
+php bin/console generate:doctrine:form XxYyBundle:Entity
