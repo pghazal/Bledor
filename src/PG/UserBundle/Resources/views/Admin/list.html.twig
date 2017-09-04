@@ -4,49 +4,53 @@
 
 {% block pguser_body %}
 
-    <h1>Liste des utilisateurs</h1>
+    {% if users is empty %}
+        Aucun utilisateur
+    {% else %}
+        <h1>Liste des utilisateurs</h1>
 
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th>id</th>
-            <th>username</th>
-            <th>email</th>
-            <th>last login</th>
-            <th>role</th>
-            <th></th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-
-        {% for user in users %}
+        <table class="table table-hover">
+            <thead>
             <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.username|e }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.lastLogin.format('d/m/Y H:i:s') }}</td>
-                <td>
-                    {% for role in user.roles %}
-                        <li>{{ role }}</li>
-                    {% endfor %}
-                </td>
-                <td>
-                    <a href="{{ path('pg_user_edit', {'id': user.id}) }}" class="btn btn-default">
-                        <i class="glyphicon glyphicon-edit"></i>
-                        Modifier
-                    </a>
-                </td>
-
-                <td>
-                    <a href="{{ path('pg_user_delete', {'id': user.id}) }}" class="btn btn-danger">
-                        <i class="glyphicon glyphicon-trash"></i>
-                        Supprimer
-                    </a>
-                </td>
+                <th>id</th>
+                <th>username</th>
+                <th>email</th>
+                <th>last login</th>
+                <th>role</th>
+                <th></th>
+                <th></th>
             </tr>
-        {% endfor %}
+            </thead>
+            <tbody>
 
-        </tbody>
-    </table>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.username|e }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.lastLogin.format('d/m/Y H:i:s') }}</td>
+                    <td>
+                        {% for role in user.roles %}
+                            <li>{{ role }}</li>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <a href="{{ path('pg_user_edit', {'id': user.id}) }}" class="btn btn-default">
+                            <i class="glyphicon glyphicon-edit"></i>
+                            Modifier
+                        </a>
+                    </td>
+
+                    <td>
+                        <a href="{{ path('pg_user_delete', {'id': user.id}) }}" class="btn btn-danger">
+                            <i class="glyphicon glyphicon-trash"></i>
+                            Supprimer
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    {% endif %}
 {% endblock %}
