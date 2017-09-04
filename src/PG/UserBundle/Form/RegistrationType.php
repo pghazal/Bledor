@@ -29,7 +29,7 @@ class RegistrationType extends AbstractType
 
         $builder->add('roles', ChoiceType::class, array(
             'required' => true,
-            'label' => 'roles',
+            'label' => 'Rôle',
             'choices' => $this->rolesHelper->getRoles(),
             'multiple' => true
         ));
@@ -42,6 +42,6 @@ class RegistrationType extends AbstractType
 
     public function getBlockPrefix()
     {
-        return 'app_user_registration';
+        return 'pg_user_registration';
     }
 }
