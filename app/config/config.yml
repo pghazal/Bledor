@@ -75,8 +75,18 @@ fos_user:
     firewall_name: main                      # Le nom du firewall derrière lequel on utilisera ces utilisateurs
     user_class:    PG\UserBundle\Entity\User # La classe de l'entité User que nous utilisons
     from_email:
-        address: you@example.com
-        sender_name: You
+        address: pg.ghazal@gmail.com
+        sender_name: Demo App
     registration:
         form:
             type: PG\UserBundle\Form\RegistrationType
+    #    confirmation:
+    #        enabled: true
+    #        from_email:
+    #            address:        pg.ghazal@gmail.com
+    #            sender_name:    Confirmation
+    #resetting:
+    #    email:
+    #        from_email:
+    #            address:        pg.ghazal@gmail.com
+    #           sender_name:    Mot de passe oublié ?

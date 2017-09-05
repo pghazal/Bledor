@@ -4,6 +4,10 @@
 
 {% block pguser_body %}
 
+    <a href="{{ path('fos_user_registration_register') }}" class="btn btn-default">
+        Ajouter
+    </a>
+
     {% if users is empty %}
         Aucun utilisateur
     {% else %}
@@ -28,7 +32,7 @@
                     <td>{{ user.id }}</td>
                     <td>{{ user.username|e }}</td>
                     <td>{{ user.email }}</td>
-                    <td>{{ user.lastLogin.format('d/m/Y H:i:s') }}</td>
+                    <td>{% if user.lastLogin %}{{ user.lastLogin.format('d/m/Y H:i:s') }} {% endif %}</td>
                     <td>
                         {% for role in user.roles %}
                             <li>{{ role }}</li>

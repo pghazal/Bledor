@@ -3,7 +3,6 @@
 namespace PG\UserBundle\Controller;
 
 use FOS\UserBundle\Controller\RegistrationController as BaseController;
-use FOS\UserBundle\Event\FilterUserResponseEvent;
 use FOS\UserBundle\Event\FormEvent;
 use FOS\UserBundle\Event\GetResponseUserEvent;
 use FOS\UserBundle\Form\Factory\FactoryInterface;
@@ -46,19 +45,13 @@ class RegistrationController extends BaseController
 
                 $userManager->updateUser($user);
 
-                /*****************************************************
-                 * Add new functionality (e.g. log the registration) *
-                 *****************************************************/
-                $this->container->get('logger')->info(
-                    sprintf("New user registration: %s", $user)
-                );
-
                 if (null === $response = $event->getResponse()) {
                     $url = $this->generateUrl('fos_user_registration_confirmed');
                     $response = new RedirectResponse($url);
                 }
 
-                $dispatcher->dispatch(FOSUserEvents::REGISTRATION_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
+                // Do not login after register
+                // $dispatcher->dispatch(FOSUserEvents::REGISTRATION_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
 
                 return $response;
             }
