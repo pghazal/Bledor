@@ -23,3 +23,7 @@ pg_user_delete:
     defaults: { _controller: PGUserBundle:Admin:delete }
     requirements:
             id: \d+
+
+fos_user_register:
+    resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
+    prefix: /register

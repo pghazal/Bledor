@@ -2,8 +2,8 @@
 
 <form action="{{ path('fos_user_registration_register') }}" class="form-signin" method="POST">
     <div class="form-group" id="fos_user_registration_form">
-            {{ form_widget(form.email, { 'attr': {'class': 'input-group', 'placeholder': 'form.email'|trans } }) }}
-            {{ form_errors(form.email) }}
+        {{ form_widget(form.email, { 'attr': {'class': 'input-group', 'placeholder': 'form.email'|trans } }) }}
+        {{ form_errors(form.email) }}
 
         {{ form_widget(form.username, { 'attr': {'class': 'input-group', 'placeholder': 'form.username'|trans } }) }}
         {{ form_errors(form.username) }}

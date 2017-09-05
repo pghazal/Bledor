@@ -2,15 +2,15 @@
 
 {% block pguser_body %}
 
+    <p>
+        <a href="{{ path('pg_user_list') }}" class="btn btn-default">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+            Retour liste users
+        </a>
+    </p>
+
     <h2>Modifier un utilisateur</h2>
 
     {{ include("PGUserBundle:Admin:form.html.twig") }}
-
-    <p>
-      <a href="{{ path('pg_user_list') }}" class="btn btn-default">
-        <i class="glyphicon glyphicon-chevron-left"></i>
-        Retour liste users
-      </a>
-    </p>
 
 {% endblock %}
