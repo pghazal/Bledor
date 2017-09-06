@@ -1,16 +1,22 @@
 services:
-    pg_user.roles:
+    app.roles:
         class: PG\UserBundle\Service\RolesHelper
         arguments: ["%security.role_hierarchy.roles%"]
 
-    pg_user.user.form.type:
+    app.form.user:
         class: PG\UserBundle\Form\UserType
-        arguments: ["%fos_user.model.user.class%", "@pg_user.roles"]
+        arguments: ["%fos_user.model.user.class%", "@app.roles"]
         tags:
-            - { name: form.type, alias: user_registration }
+            - { name: form.type, alias: app_unused_registration }
 
-    pg_user.registration.form.type:
-            class: PG\UserBundle\Form\RegistrationType
-            arguments: ["%fos_user.model.user.class%", "@pg_user.roles"]
-            tags:
-                - { name: form.type, alias: pg_user_registration }
+    app.form.registration:
+        class: PG\UserBundle\Form\RegistrationType
+        arguments: ["%fos_user.model.user.class%", "@app.roles"]
+        tags:
+            - { name: form.type, alias: app_user_registration }
+
+    app.form.profile:
+        class: PG\UserBundle\Form\ProfileType
+        arguments: ["%fos_user.model.user.class%"]
+        tags:
+            - { name: form.type, alias: app_user_profile }

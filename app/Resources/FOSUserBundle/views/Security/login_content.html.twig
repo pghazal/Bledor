@@ -43,4 +43,12 @@
         <i class="glyphicon glyphicon-log-in"></i> {{ 'security.login.submit'|trans }}
     </button>
 
+    <br>
+    <div>
+        <a href="{{ path('fos_user_resetting_request') }}" class="btn btn-default">
+            <i class="glyphicon glyphicon-edit"></i>
+            {{ 'resetting.request.forgot'|trans }}
+        </a>
+    </div>
+
 </form>

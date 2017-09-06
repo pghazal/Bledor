@@ -42,6 +42,6 @@ class RegistrationType extends AbstractType
 
     public function getBlockPrefix()
     {
-        return 'pg_user_registration';
+        return 'app_user_registration';
     }
 }

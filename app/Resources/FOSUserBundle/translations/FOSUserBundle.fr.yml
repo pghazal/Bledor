@@ -21,10 +21,12 @@ profile:
         email: 'Adresse e-mail'
     edit:
         submit: 'Mettre à jour'
+    update:
+        submit: 'Modifier mes informations'
     flash:
         updated: 'Le profil a été mis à jour.'
 change_password:
-    submit: 'Modifier le mot de passe'
+    submit: 'Modifier mon mot de passe'
     flash:
         success: 'Le mot de passe a été modifié.'
 registration:
@@ -54,6 +56,7 @@ resetting:
         Si vous ne recevez pas un email, vérifiez votre dossier spam ou essayez à nouveau.
 
     request:
+        forgot: 'Mot de passe oublié ?'
         username: 'Nom d''utilisateur ou adresse e-mail'
         submit: 'Réinitialiser le mot de passe'
     reset:

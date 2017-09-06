@@ -77,6 +77,9 @@ fos_user:
     from_email:
         address: pg.ghazal@gmail.com
         sender_name: Demo App
+    profile:
+        form:
+            type: PG\UserBundle\Form\ProfileType
     registration:
         form:
             type: PG\UserBundle\Form\RegistrationType

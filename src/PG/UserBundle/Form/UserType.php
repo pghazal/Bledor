@@ -15,6 +15,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserType extends AbstractType
 {
+    private $class;
 
     /**
      * @var RolesHelper
@@ -27,6 +28,7 @@ class UserType extends AbstractType
      */
     public function __construct($class, RolesHelper $rolesHelper)
     {
+        $this->class = $class;
         $this->rolesHelper = $rolesHelper;
     }
 
@@ -65,7 +67,7 @@ class UserType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'PG\UserBundle\Entity\User'
+            'data_class' => $this->class
         ));
     }
 
@@ -74,6 +76,6 @@ class UserType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'pg_userbundle_user';
+        return 'app_unused_registration';
     }
 }
