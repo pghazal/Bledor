@@ -29,21 +29,7 @@
     </div>
 
     <div class="row content">
-        <div id="menu" class="col-sm-2 sidenav">
-            <ul class="nav nav-pills nav-stacked">
-                <li><a href="{{ path('pg_platform_homepage') }}">Accueil</a></li>
-                <li><a href="{{ path('pg_platform_products') }}">Nos produits</a></li>
-                {% if is_granted('ROLE_ADMIN') %}
-                    <li><a href="{{ path('pg_user_list_with_end_slash') }}">Les utilisateurs</a></li>
-                    <li><a href="{{ path('pg_platform_products_add') }}">Ajouter un produit</a></li>
-                {% endif %}
-                {% if is_granted("ROLE_CLIENT") %}
-                    <li><a href="{{ path('pg_platform_operations_add') }}">Passer une commande</a></li>
-                {% endif %}
-            </ul>
-        </div>
-
-        <div id="content" class="col-sm-10 main-content">
+        <div id="content" class="col-sm-12 main-content">
             {% block content %}
             {% endblock %}
         </div>
