@@ -21,7 +21,6 @@ class ProductType extends AbstractType
         $builder
             ->add('name',          TextType::class)
             ->add('description',   TextareaType::class, array('required' => false))
-            ->add('price',         MoneyType::class)
             ->add('image',         ImageType::class)
             ->add('save',          SubmitType::class);
     }
