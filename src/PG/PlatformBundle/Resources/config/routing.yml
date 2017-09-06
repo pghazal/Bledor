@@ -39,9 +39,9 @@ pg_platform_products_delete:
     requirements:
         id: \d+
 
-# Operations
+# Commandes
 
-pg_platform_operations_add:
-    path:    /operations/add
+pg_platform_order_add:
+    path:    /order/add
     defaults:
-        _controller: PGPlatformBundle:Operation:add
+        _controller: PGPlatformBundle:Command:add

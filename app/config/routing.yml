@@ -14,7 +14,11 @@ pg_user:
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
 
-fos_user_profile:
+fos_user_profile_show:
+    resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
+    prefix: /profile
+
+fos_user_profile_edit:
     resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
     prefix: /profile
 
