@@ -2,6 +2,12 @@
 
 {% block pguser_body %}
 
+    <p>
+        <a href="{{ path('pg_user_list') }}" class="btn btn-default">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+            Retour
+        </a>
+    </p>
 
     <h2>Supprimer un utilisateur</h2>
 
@@ -13,12 +19,5 @@
         <input type="submit" value="Supprimer" class="btn btn-danger"/>
         {{ form_rest(form) }}
     </form>
-
-    <p>
-        <a href="{{ path('pg_user_list') }}" class="btn btn-default">
-            <i class="glyphicon glyphicon-chevron-left"></i>
-            Retour liste users
-        </a>
-    </p>
 
 {% endblock %}
