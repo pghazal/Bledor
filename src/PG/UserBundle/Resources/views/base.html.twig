@@ -6,6 +6,17 @@
 
 {% block content %}
 
+    {% if app.request.hasPreviousSession %}
+        {% for type, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ type }} alert-dismissable fade in">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>{{ message }}</strong>
+                </div>
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+
     {% block pguser_body %}
 
     {% endblock %}

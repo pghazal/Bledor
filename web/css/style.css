@@ -14,7 +14,6 @@ body {
 
 .main-content {
     padding: 15px 15px;
-    background-color: #c1c1ff;
     height: 100%;
 }
 
@@ -59,6 +58,24 @@ body {
 .form-signin input[type="password"] {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
+}
+
+.alert-notice {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
+
+.alert-warning {
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+}
+
+.alert-error {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
 }
 
 /* On small screens, set height to 'auto' for sidenav and grid */
