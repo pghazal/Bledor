@@ -1,14 +1,18 @@
 {% trans_default_domain 'FOSUserBundle' %}
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
+
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar"
-                    aria-expanded="false" aria-controls="navbar">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ path('index') }}">Blédor</a>
+            <a class="navbar-brand" href="{{ path('index') }}">
+                <img src="https://lh3.googleusercontent.com/gN6iBKP1b2GTXZZoCxhyXiYIAh8QJ_8xzlhEK6csyDadA4GdkEdIEy9Bc8s5jozt1g=w300">
+                Blédor
+            </a>
         </div>
 
         <div id="navbar" class="collapse navbar-collapse">
@@ -38,10 +42,13 @@
                                 <li><a href="{{ path('pg_platform_order_add') }}">{{ 'nav.order'|trans }}</a></li>
                             {% endif %}
                             {% if is_granted('ROLE_GERANT') %}
-                                <li><a href="{{ path('pg_platform_products_add') }}">{{ 'nav.add_product'|trans }}</a></li>
+                                <li><a href="{{ path('pg_platform_products_add') }}">{{ 'nav.add_product'|trans }}</a>
+                                </li>
                             {% endif %}
                             {% if is_granted('ROLE_ADMIN') %}
-                                <li><a href="{{ path('pg_user_list_with_end_slash') }}">{{ 'nav.manage_users'|trans }}</a></li>
+                                <li>
+                                    <a href="{{ path('pg_user_list_with_end_slash') }}">{{ 'nav.manage_users'|trans }}</a>
+                                </li>
                             {% endif %}
 
                             <li>
