@@ -17,10 +17,10 @@
 </head>
 
 <body>
+
+{% include '::topnav.html.twig' %}
+
 <div class="container">
-
-    {% include '::topnav.html.twig' %}
-
     <div id="header" class="jumbotron">
         <h1>Blédor</h1>
         <p>
@@ -28,17 +28,17 @@
         </p>
     </div>
 
-    <div class="row content">
-        <div id="content" class="col-sm-12 main-content">
-            {% block content %}
-            {% endblock %}
-        </div>
+    <div id="content" class="col-sm-12 main-content">
+        {% block content %}
+        {% endblock %}
     </div>
+</div>
 
-    <hr>
+<hr>
 
+<div id="footer" class="footer">
     <footer>
-        <p>Blédor © {{ 'now'|date('Y') }}</p>
+        Blédor © {{ 'now'|date('Y') }}
     </footer>
 </div>
 

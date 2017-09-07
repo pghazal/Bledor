@@ -4,17 +4,20 @@ body {
 }
 
 .container {
-    width: 80%;
-}
-
-.row.content {
-    padding: 15px 15px;
-    height: 550px
+    margin-top: 40px;
 }
 
 .main-content {
-    padding: 15px 15px;
-    height: 100%;
+    display: block;
+    overflow: auto;
+    padding: 16px;
+    border-radius: 6px;
+}
+
+.footer {
+    background-color: #eee;
+    padding: 16px 16px;
+    border-radius: 6px;
 }
 
 .form-signin {
@@ -76,16 +79,4 @@ body {
     color: #a94442;
     background-color: #f2dede;
     border-color: #ebccd1;
-}
-
-/* On small screens, set height to 'auto' for sidenav and grid */
-@media screen and (max-width: 767px) {
-    .sidenav {
-        height: auto;
-        padding: 15px;
-    }
-
-    .row.content {
-        height: auto;
-    }
 }
