@@ -9,12 +9,15 @@ group:
         updated: 'Le groupe a été mis à jour.'
         created: 'Le groupe a été créé.'
         deleted: 'Le groupe a été supprimé.'
+
 security:
     login:
         username: 'Nom d''utilisateur'
         password: 'Mot de passe'
         remember_me: 'Se souvenir de moi'
         submit: Connexion
+        last_login: 'Dernière connexion'
+
 profile:
     show:
         username: 'Nom d''utilisateur'
@@ -25,10 +28,12 @@ profile:
         submit: 'Modifier mes informations'
     flash:
         updated: 'Le profil a été mis à jour.'
+
 change_password:
     submit: 'Modifier mon mot de passe'
     flash:
         success: 'Le mot de passe a été modifié.'
+
 registration:
     check_email: 'Un e-mail a été envoyé à l''adresse %email%. Il contient un lien d''activation sur lequel il vous faudra cliquer afin d''activer votre compte.'
     confirmed: 'Félicitations %username%, votre compte est maintenant activé.'
@@ -88,3 +93,16 @@ form:
     password_confirmation: 'Répéter le mot de passe'
     new_password: 'Nouveau mot de passe'
     new_password_confirmation: 'Répéter le nouveau mot de passe'
+    roles: 'Rôles'
+    cancel: 'Annuler'
+    delete: 'Supprimer'
+    edit: 'Modifier'
+
+nav:
+    home: 'Accueil'
+    our_products: 'Nos produits'
+    my_profile: 'Mon compte'
+    manage_users: 'Gérer les utilisateurs'
+    see_profile: 'Voir mon profil'
+    order: 'Passer une commande'
+    add_product: 'Ajouter un produit'

@@ -1,3 +1,4 @@
+{% trans_default_domain 'FOSUserBundle' %}
 {% extends "PGUserBundle::base.html.twig" %}
 
 {% block pguser_body %}
@@ -12,12 +13,16 @@
     <h2>Supprimer un utilisateur</h2>
 
     <p>
-        Etes-vous certain de vouloir supprimer l'utilisateur "{{ user.username }} ({{ user.email }} )" ?
+        Êtes-vous certain de vouloir supprimer l'utilisateur "{{ user.username }} ({{ user.email }} )" ?
     </p>
 
     <form action="{{ path('pg_user_delete', {'id': user.id}) }}" method="post">
-        <input type="submit" value="Supprimer" class="btn btn-danger"/>
+        <input type="submit" value="{{ 'form.delete'|trans }}" class="btn btn-danger"/>
         {{ form_rest(form) }}
     </form>
+
+    <a href="{{ path('pg_user_list_with_end_slash') }}" class="btn btn-default">
+        {{ 'form.cancel'|trans }}
+    </a>
 
 {% endblock %}

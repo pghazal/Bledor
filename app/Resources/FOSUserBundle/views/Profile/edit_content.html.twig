@@ -2,34 +2,22 @@
 
 {{ form_start(form, { 'action': path('fos_user_profile_edit'), 'attr': { 'class': 'fos_user_profile_edit' } }) }}
 <div>
-    {{ form_widget(form.email, { 'attr': {'class': 'input-group', 'placeholder': 'form.email'|trans } }) }}
-    {{ form_errors(form.email) }}
+    <div class="form-group">
+        {{ form_label(form.email, 'form.email'|trans, {'label_attr': {'class': 'control-label'}}) }}
+        {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.email) }}
+    </div>
 
-    {{ form_widget(form.username, { 'attr': {'class': 'input-group', 'placeholder': 'form.username'|trans } }) }}
-    {{ form_errors(form.username) }}
+    <div class="form-group">
+        {{ form_label(form.username, 'form.username'|trans, {'label_attr': {'class': 'control-label'}}) }}
+        {{ form_widget(form.username, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.username) }}
+    </div>
 </div>
+
+<br>
+
 <div>
     <input type="submit" class="btn btn-lg btn-primary btn-block" value="{{ 'profile.edit.submit'|trans }}"/>
 </div>
 {{ form_end(form) }}
-
-
-{#
-<form action="{{ path('fos_user_profile_edit') }}" class="form-signin" method="POST">
-    <div class="form-group" id="fos_user_profile_form">
-        {{ form_widget(form.email, { 'attr': {'class': 'input-group', 'placeholder': 'form.email'|trans } }) }}
-        {{ form_errors(form.email) }}
-
-        {{ form_widget(form.username, { 'attr': {'class': 'input-group', 'placeholder': 'form.username'|trans } }) }}
-        {{ form_errors(form.username) }}
-
-    </div>
-    <div>
-        <button type="submit"
-                class="btn btn-lg btn-primary btn-block"
-                id="_submit"
-                name="_submit">
-            <i class="glyphicon glyphicon-log-in"></i> {{ 'profile.edit.submit'|trans }}
-        </button>
-    </div>
-</form>#}

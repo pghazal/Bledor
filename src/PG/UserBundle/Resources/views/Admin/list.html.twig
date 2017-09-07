@@ -1,3 +1,4 @@
+{% trans_default_domain 'FOSUserBundle' %}
 {% extends "PGUserBundle::base.html.twig" %}
 
 {% block title %}Administration{% endblock %}
@@ -17,10 +18,10 @@
             <thead>
             <tr>
                 <th>id</th>
-                <th>username</th>
-                <th>email</th>
-                <th>last login</th>
-                <th>role</th>
+                <th>{{ 'form.username'|trans }}</th>
+                <th>{{ 'form.email'|trans }}</th>
+                <th>{{ 'security.login.last_login'|trans }}</th>
+                <th>{{ 'form.roles'|trans }}</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -41,14 +42,14 @@
                     <td>
                         <a href="{{ path('pg_user_edit', {'id': user.id}) }}" class="btn btn-default">
                             <i class="glyphicon glyphicon-edit"></i>
-                            Modifier
+                            {{ 'form.edit'|trans }}
                         </a>
                     </td>
 
                     <td>
                         <a href="{{ path('pg_user_delete', {'id': user.id}) }}" class="btn btn-danger">
                             <i class="glyphicon glyphicon-trash"></i>
-                            Supprimer
+                            {{ 'form.delete'|trans }}
                         </a>
                     </td>
                 </tr>
