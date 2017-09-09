@@ -10,20 +10,12 @@
     <h1>{{ 'nav.our_products'|trans }}</h1>
 
     {% if products is empty %}
-        Nous avons pour le moment aucun produit.
+        Nous n'avons aucun produit pour le moment.
     {% else %}
         <ul>
             {% for product in products %}
                 <li>
                     <h2>{{ product.name }}</h2>
-
-                    {% if product.image is not null %}
-                        <img
-                                src="{{ asset(product.image.webPath) }}"
-                                alt="{{ product.image.alt }}"
-                                style="width:64px;height:64px;"
-                        />
-                    {% endif %}
 
                     {% if product.description is not null %}
                         <div class="well">
@@ -31,16 +23,18 @@
                         </div>
                     {% endif %}
 
-                    {% if is_granted('ROLE_ADMIN') %}
+                    {% if is_granted('ROLE_GERANT') %}
                         <a href="{{ path('pg_platform_products_edit', {'id': product.id}) }}" class="btn btn-default">
                             <i class="glyphicon glyphicon-edit"></i>
                             {{ 'form.edit'|trans }}
                         </a>
-
-                        <a href="{{ path('pg_platform_products_delete', {'id': product.id}) }}" class="btn btn-danger">
-                            <i class="glyphicon glyphicon-trash"></i>
-                            {{ 'form.delete'|trans }}
-                        </a>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('pg_platform_products_delete', {'id': product.id}) }}"
+                               class="btn btn-danger">
+                                <i class="glyphicon glyphicon-trash"></i>
+                                {{ 'form.delete'|trans }}
+                            </a>
+                        {% endif %}
                     {% endif %}
                 </li>
             {% endfor %}

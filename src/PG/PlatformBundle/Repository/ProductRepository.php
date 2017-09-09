@@ -11,9 +11,7 @@ namespace PG\PlatformBundle\Repository;
 class ProductRepository extends \Doctrine\ORM\EntityRepository
 {
 	public function findAllWithImage() {
-		$qb = $this->createQueryBuilder('p')
-				   ->leftJoin('p.image', 'img')
-    			   ->addSelect('img');
+		$qb = $this->createQueryBuilder('p');
 
     	return $qb->getQuery()->getResult();
 	}
@@ -21,9 +19,7 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
 	public function findWithImage($id) {
 		$qb = $this->createQueryBuilder('p')
 				   ->where('p.id = :id')
-				   ->setParameter('id', $id)
-				   ->leftJoin('p.image', 'img')
-    			   ->addSelect('img');
+				   ->setParameter('id', $id);
 
     	return $qb->getQuery()->getResult();
 	}
