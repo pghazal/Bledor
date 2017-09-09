@@ -8,10 +8,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 use PG\PlatformBundle\Entity\Product;
 use PG\PlatformBundle\Form\ProductType;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ProductController extends Controller
 {
-
     public function productsAction($id = 0)
     {
         $em = $this->getDoctrine()->getManager();
@@ -24,14 +24,15 @@ class ProductController extends Controller
             $products = $em->getRepository('PGPlatformBundle:Product')->findWithImage($id);
         }
 
-        return $this->render(
-            'PGPlatformBundle:Product:products.html.twig',
-            array('products' => $products)
-        );
+        return $this->render('PGPlatformBundle:Product:products.html.twig', array(
+            'products' => $products
+        ));
     }
 
     /**
      * @Security("has_role('ROLE_ADMIN')")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function addAction(Request $request)
     {
@@ -60,6 +61,9 @@ class ProductController extends Controller
 
     /**
      * @Security("has_role('ROLE_ADMIN')")
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function editAction(Request $request, $id)
     {
@@ -95,6 +99,9 @@ class ProductController extends Controller
 
     /**
      * @Security("has_role('ROLE_ADMIN')")
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function deleteAction(Request $request, $id)
     {

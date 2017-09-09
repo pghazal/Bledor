@@ -44,7 +44,7 @@ class Product
      * @ORM\OneToOne(targetEntity="PG\PlatformBundle\Entity\Image", cascade={"persist", "remove"})
      * @Assert\Valid()
      */
-    private $image;
+    //private $image;
 
 
     /**
@@ -112,20 +112,20 @@ class Product
      *
      * @return Product
      */
-    public function setImage(\PG\PlatformBundle\Entity\Image $image = null)
+    /*public function setImage(Image $image = null)
     {
         $this->image = $image;
 
         return $this;
-    }
+    }*/
 
     /**
      * Get image
      *
      * @return \PG\PlatformBundle\Entity\Image
      */
-    public function getImage()
-    {
-        return $this->image;
-    }
+    /* public function getImage()
+     {
+         return $this->image;
+     }*/
 }

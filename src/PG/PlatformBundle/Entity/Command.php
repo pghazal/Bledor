@@ -3,6 +3,7 @@
 namespace PG\PlatformBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use PG\UserBundle\Entity\User;
 
 /**
  * Command
@@ -37,7 +38,7 @@ class Command
     private $updatedAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity="PG\PlatformBundle\Entity\Client")
+     * @ORM\ManyToOne(targetEntity="PG\UserBundle\Entity\User")
      * @ORM\JoinColumn(nullable=false)
      */
     private $client;
@@ -111,11 +112,11 @@ class Command
     /**
      * Set client
      *
-     * @param \PG\PlatformBundle\Entity\Client $client
+     * @param User $client
      *
      * @return Command
      */
-    public function setClient(\PG\PlatformBundle\Entity\Client $client)
+    public function setClient(User $client)
     {
         $this->client = $client;
 
@@ -125,7 +126,7 @@ class Command
     /**
      * Get client
      *
-     * @return \PG\PlatformBundle\Entity\Client
+     * @return \PG\UserBundle\Entity\User
      */
     public function getClient()
     {

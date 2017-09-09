@@ -56,7 +56,7 @@ class ProductCommand
      *
      * @return ProductCommand
      */
-    public function setProduct(\PG\PlatformBundle\Entity\Product $product)
+    public function setProduct(Product $product)
     {
         $this->product = $product;
 
@@ -80,7 +80,7 @@ class ProductCommand
      *
      * @return ProductCommand
      */
-    public function setCommand(\PG\PlatformBundle\Entity\Command $command)
+    public function setCommand(Command $command)
     {
         $this->command = $command;
 
