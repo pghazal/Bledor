@@ -1,3 +1,4 @@
+{% trans_default_domain 'FOSUserBundle' %}
 <div class="well">
     {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
 
@@ -19,7 +20,7 @@
         </div>
     </div>
 
-    {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}}) }}
+    {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}, 'label': 'profile.edit.submit'|trans}) }}
 
     {{ form_rest(form) }}
 

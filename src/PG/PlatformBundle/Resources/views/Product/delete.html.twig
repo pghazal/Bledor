@@ -2,6 +2,11 @@
 
 {% block pgplatform_body %}
 
+    <a href="{{ path('pg_platform_products') }}" class="btn btn-default">
+        <i class="glyphicon glyphicon-chevron-left"></i>
+        Retour aux produits
+    </a>
+
     <h2>Supprimer un produit</h2>
 
     <p>
@@ -9,10 +14,6 @@
     </p>
 
     <form action="{{ path('pg_platform_products_delete', {'id': product.id}) }}" method="post">
-        <a href="{{ path('pg_platform_products', {'id': product.id}) }}" class="btn btn-default">
-            <i class="glyphicon glyphicon-chevron-left"></i>
-            Retour aux produits
-        </a>
         <input type="submit" value="Supprimer" class="btn btn-danger"/>
         {{ form_rest(form) }}
     </form>
