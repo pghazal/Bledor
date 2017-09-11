@@ -106,3 +106,6 @@ nav:
     see_profile: 'My informations'
     order: 'Make an order'
     add_product: 'Add a product'
+
+pg:
+    validate: 'Validate'

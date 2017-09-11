@@ -50,7 +50,7 @@ class ProductController extends Controller
 
                 $request->getSession()->getFlashBag()->add('notice', 'Produit bien enregistrée.');
 
-                return $this->redirectToRoute('pg_platform_products', array('id' => $product->getId()));
+                return $this->redirectToRoute('pg_platform_products');
             }
         }
 
