@@ -105,6 +105,11 @@ class Product
         return $this->description;
     }
 
+    function __toString()
+    {
+        return $this->name;
+    }
+
     /**
      * Set image
      *

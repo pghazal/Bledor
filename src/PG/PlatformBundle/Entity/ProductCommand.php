@@ -3,6 +3,7 @@
 namespace PG\PlatformBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * ProductCommand
@@ -23,21 +24,24 @@ class ProductCommand
 
     /**
      * @ORM\Column(name="quantity", type="integer")
+     * @Assert\GreaterThanOrEqual(0)
+     * @Assert\Type("integer")
      */
     private $quantity;
 
     /**
+     * @var Product
+     *
      * @ORM\ManyToOne(targetEntity="PG\PlatformBundle\Entity\Product")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $product;
 
     /**
-     * @ORM\ManyToOne(targetEntity="PG\PlatformBundle\Entity\Command")
-     * @ORM\JoinColumn(nullable=false)
+     * @var Command
+     *
+     * @ORM\ManyToOne(targetEntity="PG\PlatformBundle\Entity\Command", inversedBy="products")
      */
-    private $command;
-
+    protected $command;
 
     /**
      * Get id

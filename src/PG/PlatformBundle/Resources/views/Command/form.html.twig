@@ -1,25 +1,89 @@
-<div class="well">
-    {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
 
+<div class="well">
+    <input type="hidden" id="pg_platformbundle_products_count" name="pg_platformbundle_products_count"
+           value="{{ products|length }}">
     {{ form_errors(form) }}
 
-    <div class="form-group">
-        {{ form_label(form.quantity, "Quantité", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
-        {{ form_errors(form.quantity) }}
-        <div class="col-sm-10">
-            {{ form_widget(form.quantity, {'attr': {'class': 'form-control'}}) }}
-        </div>
-    </div>
 
-    <div class="form-group">
-        {{ form_label(form.product.name, "Produit", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
-        {{ form_errors(form.product.name) }}
-        <div class="col-sm-10">
-            {{ form_widget(form.product.name, {'attr': {'class': 'form-control'}}) }}
-        </div>
-    </div>
+    <ul class="products-list" data-prototype="{{ form_widget(form.products.vars.prototype)|e('html_attr') }}">
+        {% for product in products %}
+            <li>
+                {{ product }}
+            </li>
+        {% endfor %}
+    </ul>
 
-    {{ form_rest(form) }}
 
-    {{ form_end(form) }}
+    {#  <div class="form-group">
+          {{ form_label(form.quantity, "Quantité", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+          {{ form_errors(form.quantity) }}
+          <div class="col-sm-10">
+              {{ form_widget(form.quantity, {'attr': {'class': 'form-control'}}) }}
+          </div>
+      </div>
+
+      <div class="form-group">
+          {{ form_label(form.product.name, "Produit", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+          {{ form_errors(form.product.name) }}
+          <div class="col-sm-10">
+              {{ form_widget(form.product.name, {'attr': {'class': 'form-control'}}) }}
+          </div>
+      </div> #}
+
+
 </div>
+{{ form_end(form) }}
+
+
+
+
+{# On charge la bibliothèque jQuery. Ici, je la prends depuis le CDN google
+   mais si vous l'avez en local, changez simplement l'adresse. #}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+
+<script type="text/javascript">
+    var $collectionHolder;
+
+    jQuery(document).ready(function () {
+        $productsCount = document.getElementById("pg_platformbundle_products_count").value;
+
+        // Get the ul that holds the collection of products
+        $collectionHolder = $('ul.products-list');
+
+        // count the current form inputs we have (e.g. 2), use that as the new
+        // index when inserting a new item (e.g. 2)
+        $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+        for (var i = 0; i < $productsCount; i++) {
+            // add the "add a tag" anchor and li to the tags ul
+            var productForm = addTagForm($collectionHolder);
+            $collectionHolder.append(productForm);
+        }
+    });
+
+    function addTagForm($collectionHolder) {
+        // Get the data-prototype explained earlier
+        var prototype = $collectionHolder.data('prototype');
+
+        // get the new index
+        var index = $collectionHolder.data('index');
+
+        var newForm = prototype;
+        // You need this only if you didn't set 'label' => false in your tags field in TaskType
+        // Replace '__name__label__' in the prototype's HTML to
+        // instead be a number based on how many items we have
+        newForm = newForm
+            .replace(/__name__label__/g, 'Quant' + index)
+            // Replace '__name__' in the prototype's HTML to
+            // instead be a number based on how many items we have
+            .replace(/__name__/g, index);
+
+        // increase the index with one for the next item
+        $collectionHolder.data('index', index + 1);
+
+        // Display the form in the page in an li, before the "Add a tag" link li
+        return $('<li></li>').append(newForm);
+    }
+</script>

@@ -2,7 +2,10 @@
 
 namespace PG\PlatformBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use PG\PlatformBundle\Entity\ProductCommand;
+use Symfony\Component\Validator\Constraints as Assert;
 use PG\UserBundle\Entity\User;
 
 /**
@@ -14,6 +17,13 @@ use PG\UserBundle\Entity\User;
  */
 class Command
 {
+    public function __construct()
+    {
+        $this->date  = new \DateTime('now');
+        $this->products = new ArrayCollection();
+    }
+
+
     /**
      * @var int
      *
@@ -38,10 +48,18 @@ class Command
     private $updatedAt;
 
     /**
-     * @ORM\ManyToOne(targetEntity="PG\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="PG\UserBundle\Entity\User", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $client;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="PG\PlatformBundle\Entity\ProductCommand", mappedBy="command", cascade={"persist"})
+     * @Assert\NotBlank()
+     */
+    protected $products;
 
     /**
      * Get id
@@ -131,5 +149,46 @@ class Command
     public function getClient()
     {
         return $this->client;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProducts()
+    {
+        return $this->products;
+    }
+
+    /**
+     * @param ArrayCollection $products
+     */
+    public function setProducts($products)
+    {
+        $this->products = $products;
+    }
+
+    /**
+     * Add product
+     *
+     * @param ProductCommand $productCommand
+     *
+     * @return Command
+     */
+    public function addProduct(ProductCommand $productCommand)
+    {
+        //$this->products[] = $product;
+        $this->products->add($productCommand);
+        $productCommand->setCommand($this);
+        return $this;
+    }
+
+    /**
+     * Remove product
+     *
+     * @param ProductCommand $productCommand
+     */
+    public function removeProduct(ProductCommand $productCommand)
+    {
+        $this->products->removeElement($productCommand);
     }
 }
