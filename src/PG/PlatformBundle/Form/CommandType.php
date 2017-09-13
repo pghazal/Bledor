@@ -29,6 +29,7 @@ class CommandType extends AbstractType
             ->add('products', CollectionType::class, array(
                 'entry_type' => ProductCommandType::class,
                 'allow_add' => true,
+                'prototype' => true,
             ));
     }
     

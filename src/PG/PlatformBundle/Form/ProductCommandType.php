@@ -32,8 +32,10 @@ class ProductCommandType extends AbstractType
                 'query_builder' => function ($repository) {
                     return $repository->createQueryBuilder('p')->orderBy('p.name', 'ASC');
                 },
+                //'label' => false
             ))
-            ->add('quantity');
+            ->add('quantity', NumberType::class, array(// 'label' => false
+            ));
     }
 
     /**

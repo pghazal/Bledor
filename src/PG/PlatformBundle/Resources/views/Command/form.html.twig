@@ -1,71 +1,45 @@
 {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
 
 <div class="well">
-    <input type="hidden" id="pg_platformbundle_products_count" name="pg_platformbundle_products_count"
-           value="{{ products|length }}">
     {{ form_errors(form) }}
 
+    <div class="products-list" data-prototype="{{ form_widget(form.products.vars.prototype)|e('html_attr') }}">
+    </div>
 
-    <ul class="products-list" data-prototype="{{ form_widget(form.products.vars.prototype)|e('html_attr') }}">
-        {% for product in products %}
-            <li>
-                {{ product }}
-            </li>
-        {% endfor %}
-    </ul>
-
-
-    {#  <div class="form-group">
-          {{ form_label(form.quantity, "Quantité", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
-          {{ form_errors(form.quantity) }}
-          <div class="col-sm-10">
-              {{ form_widget(form.quantity, {'attr': {'class': 'form-control'}}) }}
-          </div>
-      </div>
-
-      <div class="form-group">
-          {{ form_label(form.product.name, "Produit", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
-          {{ form_errors(form.product.name) }}
-          <div class="col-sm-10">
-              {{ form_widget(form.product.name, {'attr': {'class': 'form-control'}}) }}
-          </div>
-      </div> #}
-
-
+    {% for product in products %}
+        <li>
+            {{ product }}
+        </li>
+    {% endfor %}
 </div>
 {{ form_end(form) }}
 
 
-
-
-{# On charge la bibliothèque jQuery. Ici, je la prends depuis le CDN google
-   mais si vous l'avez en local, changez simplement l'adresse. #}
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-
+{# On charge la bibliothèque jQuery. #}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <script type="text/javascript">
     var $collectionHolder;
 
     jQuery(document).ready(function () {
-        $productsCount = document.getElementById("pg_platformbundle_products_count").value;
-
         // Get the ul that holds the collection of products
-        $collectionHolder = $('ul.products-list');
+        $collectionHolder = $('div.products-list');
 
         // count the current form inputs we have (e.g. 2), use that as the new
         // index when inserting a new item (e.g. 2)
         $collectionHolder.data('index', $collectionHolder.find(':input').length);
 
-        for (var i = 0; i < $productsCount; i++) {
+        for (var i = 0; i < {{ products|length }}; i++) {
             // add the "add a tag" anchor and li to the tags ul
-            var productForm = addTagForm($collectionHolder);
-            $collectionHolder.append(productForm);
+            var productCommandForm = addProductCommandForm($collectionHolder);
+            $collectionHolder.append(productCommandForm);
+            $collectionHolder.append('<br>');
         }
     });
 
-    function addTagForm($collectionHolder) {
+    function addProductCommandForm($collectionHolder) {
         // Get the data-prototype explained earlier
-        var prototype = $collectionHolder.data('prototype');
+        var prototype = $collectionHolder.attr('data-prototype');
 
         // get the new index
         var index = $collectionHolder.data('index');
@@ -84,6 +58,6 @@
         $collectionHolder.data('index', index + 1);
 
         // Display the form in the page in an li, before the "Add a tag" link li
-        return $('<li></li>').append(newForm);
+        return newForm;
     }
 </script>
