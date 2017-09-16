@@ -2,10 +2,7 @@
 
 namespace PG\PlatformBundle\Form;
 
-use PG\PlatformBundle\Entity\Product;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -27,14 +24,15 @@ class ProductCommandType extends AbstractType
 
    */
         $builder
-            ->add('product', EntityType::class, array(
+            /*->add('product', EntityType::class, array(
                 'class' => Product::class,
                 'query_builder' => function ($repository) {
                     return $repository->createQueryBuilder('p')->orderBy('p.name', 'ASC');
                 },
                 //'label' => false
-            ))
-            ->add('quantity', NumberType::class, array(// 'label' => false
+            ))*/
+            ->add('quantity', NumberType::class, array(
+                'label' => false
             ));
     }
 
