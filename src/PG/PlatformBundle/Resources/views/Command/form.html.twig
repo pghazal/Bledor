@@ -3,8 +3,13 @@
 <div class="well">
     {{ form_errors(form) }}
 
-    <div class="products-list" data-prototype="{{ form_widget(form.products.vars.prototype)|e('html_attr') }}">
-    </div>
+    <table id="products-list" class="products-list"
+           data-prototype="{{ form_widget(form.products.vars.prototype)|e('html_attr') }}">
+        <tr>
+            <th>Produit</th>
+            <th>Quantité</th>
+        </tr>
+    </table>
 
     {% for product in products %}
         <li>
@@ -23,14 +28,14 @@
 
     jQuery(document).ready(function () {
         // Get the ul that holds the collection of products
-        $collectionHolder = $('div.products-list');
+        $collectionHolder = $('table.products-list');
 
         displayInventory();
     });
 
     function displayInventory() {
         {% for product in products %}
-        var productCommandForm = addProductCommandForm($collectionHolder, {{ product.getId() }} );
+        var productCommandForm = addProductCommandForm($collectionHolder, {{ product.getId() }}, '{{ product.getName() }}');
 
         var divForm = '<div>' + '{{ product.getName() }}' + productCommandForm + '</div>';
 
@@ -39,7 +44,20 @@
         {% endfor %}
     }
 
-    function addProductCommandForm($collectionHolder, id) {
+    function addProductCommandForm($collectionHolder, id, productName) {
+        var tableRef = document.getElementById('products-list').getElementsByTagName('tbody')[0];
+
+        // Insert a row in the table at the last row
+        var newRow = tableRef.insertRow(tableRef.rows.length);
+
+        // Insert a cell in the row at index 0
+        var newCell = newRow.insertCell(0);
+
+        // Append a text node to the cell
+        var newText = document.createTextNode(productName);
+        newCell.appendChild(newText);
+
+
         // Get the data-prototype explained earlier
         var newForm = $collectionHolder.attr('data-prototype');
 
@@ -50,6 +68,12 @@
         //.replace(/__name__label__/g, 'Quant' + index)
         // Replace '__name__' in the prototype's HTML to
         // instead be a number based on how many items we have
+
+        var div = document.createElement("div");
+        div.innerHTML = newForm;
+
+        var newCell2 = newRow.insertCell(1);
+        newCell2.appendChild(div);
 
         // Display the form in the page in an li, before the "Add a tag" link li
         return newForm;
