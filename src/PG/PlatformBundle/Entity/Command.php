@@ -57,7 +57,6 @@ class Command
      * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="PG\PlatformBundle\Entity\ProductCommand", mappedBy="command", cascade={"persist"})
-     * @Assert\NotBlank()
      */
     protected $products;
 
@@ -178,7 +177,6 @@ class Command
     {
         //$this->products[] = $product;
         $this->products->add($productCommand);
-        $productCommand->setCommand($this);
         return $this;
     }
 

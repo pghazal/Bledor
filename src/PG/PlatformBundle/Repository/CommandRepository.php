@@ -1,6 +1,7 @@
 <?php
 
 namespace PG\PlatformBundle\Repository;
+use PG\UserBundle\Entity\User;
 
 /**
  * CommandRepository
@@ -10,4 +11,14 @@ namespace PG\PlatformBundle\Repository;
  */
 class CommandRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findByClientAndDate(User $client, \DateTime $date) {
+        $qb = $this->createQueryBuilder('c');
+
+        $qb->where('c.client = :client')
+            ->setParameter('client', $client)
+            ->andWhere('c.date = :date')
+            ->setParameter('date', $date);
+
+        return $qb->getQuery()->getResult();
+    }
 }
