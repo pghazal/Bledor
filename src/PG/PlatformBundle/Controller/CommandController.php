@@ -8,11 +8,16 @@ use PG\PlatformBundle\Entity\ProductCommand;
 use PG\PlatformBundle\Form\CommandType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class CommandController extends Controller
 {
-    private const LIMIT_COMMAND_UNIT = 10000;
-
+    /**
+     * @Security("has_role('ROLE_CLIENT')")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
     public function addAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -34,7 +39,7 @@ class CommandController extends Controller
                     foreach ($products as $product) {
                         $quantity = intval($productQuantities['products'][$product->getId()]['quantity']);
 
-                        if ($quantity > 0 && $quantity < self::LIMIT_COMMAND_UNIT) {
+                        if ($quantity > 0) {
                             $productCommand = new ProductCommand();
                             $productCommand->setCommand($command);
                             $productCommand->setProduct($product);
@@ -68,6 +73,55 @@ class CommandController extends Controller
         return $this->render('PGPlatformBundle:Command:add.html.twig', array(
             'form' => $form->createView(),
             'products' => $products,
+        ));
+    }
+
+    /**
+     * @Security("has_role('ROLE_CLIENT')")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function editAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $command = $em->getRepository(Command::class)->findWithProductsCommand($id);
+
+        if (null === $command) {
+            throw new NotFoundHttpException("La commande recherchée (" . $id . ") n'existe pas.");
+        }
+
+        $products = $em->getRepository(Product::class)->findAllOrderedByName();
+
+        $form = $this->createForm(CommandType::class);
+
+        if ($request->isMethod('POST')) {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+
+                $productQuantities = $request->request->get('command');
+
+                foreach ($products as $product) {
+                    $quantity = intval($productQuantities['products'][$product->getId()]['quantity']);
+
+                    if ($quantity > 0) {
+                        $productCommand = new ProductCommand();
+                        $productCommand->setCommand($command);
+                        $productCommand->setProduct($product);
+                        $productCommand->setQuantity($quantity);
+                        $command->addProduct($productCommand);
+                    } else if($quantity <= 0) {
+                        //$command->removeProduct($productCommandToRemove);
+                    }
+                }
+
+            }
+        }
+
+        return $this->render('PGPlatformBundle:Command:edit.html.twig', array(
+            'form' => $form->createView(),
+            'products' => $products,
+            'productsCommand' => $command->getProducts(),
+            'dateCommand' => $command->getDate()
         ));
     }
 }

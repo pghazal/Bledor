@@ -11,6 +11,16 @@ use PG\UserBundle\Entity\User;
  */
 class CommandRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findWithProductsCommand($id) {
+        $qb = $this->createQueryBuilder('c')
+            ->where('c.id = :id')
+            ->setParameter('id', $id)
+            ->leftJoin('c.products', 'products')
+            ->addSelect('products');
+
+        return $qb->getQuery()->getSingleResult();
+    }
+
     public function findByClientAndDate(User $client, \DateTime $date) {
         $qb = $this->createQueryBuilder('c');
 

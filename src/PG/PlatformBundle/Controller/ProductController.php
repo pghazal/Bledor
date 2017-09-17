@@ -69,7 +69,7 @@ class ProductController extends Controller
     {
         $product = $this->getDoctrine()
             ->getManager()
-            ->getRepository('PGPlatformBundle:Product')
+            ->getRepository(Product::class)
             ->find($id);
 
         if (null === $product) {
@@ -108,7 +108,7 @@ class ProductController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $product = $em->getRepository('PGPlatformBundle:Product')->find($id);
+        $product = $em->getRepository(Product::class)->find($id);
 
         if (null === $product) {
             throw new NotFoundHttpException("Le produit d'id " . $id . " n'existe pas.");

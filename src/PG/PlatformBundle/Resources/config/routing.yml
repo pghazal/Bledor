@@ -45,3 +45,10 @@ pg_platform_order_add:
     path:    /order/add
     defaults:
         _controller: PGPlatformBundle:Command:add
+
+pg_platform_order_edit:
+    path:    /order/edit/{id}
+    defaults:
+        _controller: PGPlatformBundle:Command:edit
+    requirements:
+        id: \d+
