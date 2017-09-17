@@ -10,8 +10,8 @@ body {
     align-items: center;
 }
 
-.navbar-brand>img {
-   margin-right: 10px;
+.navbar-brand > img {
+    margin-right: 10px;
     width: 30px;
     height: 30px;
 }
@@ -24,7 +24,7 @@ body {
 /* END logo nav item */
 
 /* Nav item */
-.nav >li >a {
+.nav > li > a {
     padding-top: 30px;
     padding-bottom: 30px;
 }
