@@ -31,6 +31,7 @@ class CommandType extends AbstractType
                 'attr' => [
                     // none
                 ],
+                'format' => 'dd-MM-yyyy',
             ))
             ->add('submit', SubmitType::class);;
     }
