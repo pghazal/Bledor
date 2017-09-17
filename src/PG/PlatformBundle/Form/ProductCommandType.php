@@ -15,15 +15,11 @@ class ProductCommandType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            /*->add('product', EntityType::class, array(
-                'class' => Product::class,
-                'query_builder' => function ($repository) {
-                    return $repository->createQueryBuilder('p')->orderBy('p.name', 'ASC');
-                },
-                //'label' => false
-            ))*/
             ->add('quantity', IntegerType::class, array(
-                'label' => false
+                'label' => false,
+                'attr' => array(
+                    'placeholder' => '0',
+                )
             ));
     }
 

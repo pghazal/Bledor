@@ -21,14 +21,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/locales/bootstrap-datepicker.fr.min.js"></script>
 
     <script type="text/javascript">
-        var $prototypeHolder;
         var $tableRef;
 
         jQuery(document).ready(function () {
             initDatePicker();
 
             // Get the table that holds the collection of products
-            $prototypeHolder = $('table.products-list');
             $tableRef = document.getElementById('products-list').getElementsByTagName('tbody')[0];
 
             displayInventory();
@@ -49,13 +47,13 @@
 
         function displayInventory() {
             {% for product in products %}
-            addProductCommandForm($tableRef, $prototypeHolder, {{ product.getId() }}, '{{ product.getName() }}');
+            addProductCommandForm($tableRef, {{ product.getId() }}, '{{ product.getName() }}');
             {% endfor %}
         }
 
-        function addProductCommandForm($tableRef, $prototypeHolder, $id, $productName) {
+        function addProductCommandForm($tableRef, $id, $productName) {
 
-            var newProductForm = buildNewProductForm($prototypeHolder, $id);
+            var newProductForm = buildNewProductForm($id);
 
             // Insert a row in the table at the last row
             var newRow = $tableRef.insertRow($tableRef.rows.length);
@@ -74,9 +72,18 @@
             cellProductQuantity.appendChild(divProductQuantity);
         }
 
-        function buildNewProductForm($prototypeHolder, id) {
+        function buildNewProductForm(id) {
+            var template = [
+                '<div id="command_products___name__">',
+                '<div class="form-group">',
+                '<input type="number" id="command_products___name___quantity" name="command[products][__name__][quantity]" placeholder="0" class="form-control"/>',
+                '</div>',
+                '</div>'
+            ].join("\n");
+
             // Get the data-prototype explained earlier
-            var newForm = $prototypeHolder.attr('data-prototype');
+            var newForm = template;
+
 
             // You need this only if you didn't set 'label' => false in your tags field in TaskType
             // Replace '__name__label__' in the prototype's HTML to

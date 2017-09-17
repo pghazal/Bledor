@@ -19,10 +19,7 @@ class CommandType extends AbstractType
         $builder
             ->add('products', CollectionType::class, array(
                 'entry_type' => ProductCommandType::class,
-                'allow_add' => true,
-                'allow_delete' => true,
-                'delete_empty' => true,
-                'prototype' => true,
+                'allow_add' => false,
                 'label' => false,
                 'required' => false,
             ))
