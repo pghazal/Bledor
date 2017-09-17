@@ -26,6 +26,7 @@ class ProductCommand
      * @ORM\Column(name="quantity", type="integer")
      * @Assert\GreaterThanOrEqual(0)
      * @Assert\Type("integer")
+     * @Assert\NotBlank()
      */
     private $quantity;
 

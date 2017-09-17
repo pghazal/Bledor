@@ -43,7 +43,7 @@ class CommandController extends Controller
                         }
                     }
 
-                    if($command->getProducts()->isEmpty()) {
+                    if ($command->getProducts()->isEmpty()) {
                         $request->getSession()->getFlashBag()->add('warning', 'Votre commande semble vide.');
                     } else {
                         $em->persist($command);
