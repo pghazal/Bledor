@@ -14,7 +14,7 @@ class CommandController extends Controller
     public function addAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $products = $em->getRepository(Product::class)->findAllWithImage();
+        $products = $em->getRepository(Product::class)->findAllOrderedByName();
 
         $command = new Command();
         $form = $this->createForm(CommandType::class, $command);

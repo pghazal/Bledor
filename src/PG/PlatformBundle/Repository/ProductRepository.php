@@ -16,6 +16,12 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
     	return $qb->getQuery()->getResult();
 	}
 
+	public function findAllOrderedByName() {
+        $qb = $this->createQueryBuilder('p')->orderBy('p.name', 'ASC');
+
+        return $qb->getQuery()->getResult();
+    }
+
 	public function findWithImage($id) {
 		$qb = $this->createQueryBuilder('p')
 				   ->where('p.id = :id')
