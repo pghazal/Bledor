@@ -35,12 +35,15 @@
         });
 
         function initDatePicker() {
+            var date = new Date(Date.now()).toLocaleString();
+
             $('.datepicker').datepicker({
                 format: "dd/mm/yyyy",
                 todayBtn: "linked",
                 language: "fr",
                 autoclose: true,
-                todayHighlight: true
+                todayHighlight: true,
+                startDate: date
             });
         }
 
