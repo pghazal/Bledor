@@ -1,9 +1,10 @@
-{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+{% trans_default_domain 'FOSUserBundle' %}
 
+{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
 <div class="well">
     {{ form_errors(form) }}
 
-    <table id="products-list" class="products-list"
+    <table style="width: 100%" id="products-list" class="products-list"
            data-prototype="{{ form_widget(form.products.vars.prototype)|e('html_attr') }}">
         <tr>
             <th>Produit</th>
@@ -11,55 +12,55 @@
         </tr>
     </table>
 
-    {% for product in products %}
-        <li>
-            {{ product }}
-        </li>
-    {% endfor %}
+    {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}, 'label': 'pg.validate'|trans}) }}
 </div>
 {{ form_end(form) }}
-
 
 {# On charge la bibliothèque jQuery. #}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <script type="text/javascript">
-    var $collectionHolder;
+    var $prototypeHolder;
+    var $tableRef;
 
     jQuery(document).ready(function () {
-        // Get the ul that holds the collection of products
-        $collectionHolder = $('table.products-list');
+        // Get the table that holds the collection of products
+        $prototypeHolder = $('table.products-list');
+        $tableRef = document.getElementById('products-list').getElementsByTagName('tbody')[0];
 
         displayInventory();
     });
 
     function displayInventory() {
         {% for product in products %}
-        var productCommandForm = addProductCommandForm($collectionHolder, {{ product.getId() }}, '{{ product.getName() }}');
-
-        var divForm = '<div>' + '{{ product.getName() }}' + productCommandForm + '</div>';
-
-        $collectionHolder.append(divForm);
-        $collectionHolder.append('<br>');
+        addProductCommandForm($tableRef, $prototypeHolder, {{ product.getId() }}, '{{ product.getName() }}');
         {% endfor %}
     }
 
-    function addProductCommandForm($collectionHolder, id, productName) {
-        var tableRef = document.getElementById('products-list').getElementsByTagName('tbody')[0];
+    function addProductCommandForm($tableRef, $prototypeHolder, $id, $productName) {
+
+        var newProductForm = buildNewProductForm($prototypeHolder, $id);
 
         // Insert a row in the table at the last row
-        var newRow = tableRef.insertRow(tableRef.rows.length);
+        var newRow = $tableRef.insertRow($tableRef.rows.length);
 
         // Insert a cell in the row at index 0
-        var newCell = newRow.insertCell(0);
+        var cellProductLabel = newRow.insertCell(0);
 
-        // Append a text node to the cell
-        var newText = document.createTextNode(productName);
-        newCell.appendChild(newText);
+        var divProductLabel = document.createElement("div");
+        var productLabel = document.createTextNode($productName);
+        divProductLabel.appendChild(productLabel);
+        cellProductLabel.appendChild(divProductLabel);
 
+        var cellProductQuantity = newRow.insertCell(1);
+        var divProductQuantity = document.createElement("div");
+        divProductQuantity.innerHTML = newProductForm;
+        cellProductQuantity.appendChild(divProductQuantity);
+    }
 
+    function buildNewProductForm($prototypeHolder, id) {
         // Get the data-prototype explained earlier
-        var newForm = $collectionHolder.attr('data-prototype');
+        var newForm = $prototypeHolder.attr('data-prototype');
 
         // You need this only if you didn't set 'label' => false in your tags field in TaskType
         // Replace '__name__label__' in the prototype's HTML to
@@ -69,13 +70,6 @@
         // Replace '__name__' in the prototype's HTML to
         // instead be a number based on how many items we have
 
-        var div = document.createElement("div");
-        div.innerHTML = newForm;
-
-        var newCell2 = newRow.insertCell(1);
-        newCell2.appendChild(div);
-
-        // Display the form in the page in an li, before the "Add a tag" link li
         return newForm;
     }
 </script>
