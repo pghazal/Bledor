@@ -4,6 +4,7 @@ namespace PG\PlatformBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -24,6 +25,15 @@ class CommandType extends AbstractType
                 'prototype' => true,
                 'label' => false,
                 'required' => false,
+            ))
+            ->add('date', DateType::class, array(
+                'widget' => 'single_text',
+                // do not render as type="date", to avoid HTML5 date pickers
+                'html5' => false,
+                // add a class that can be selected in JavaScript
+                'attr' => [
+                    // none
+                ],
             ))
             ->add('submit', SubmitType::class);;
     }

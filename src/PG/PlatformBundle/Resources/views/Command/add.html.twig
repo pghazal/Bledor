@@ -1,9 +1,93 @@
 {% extends "PGPlatformBundle::layout.html.twig" %}
 
+{% block stylesheets %}
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.min.css">
+{% endblock %}
+
 {% block pgplatform_body %}
 
     <h2>Passer une commande</h2>
 
     {{ include("PGPlatformBundle:Command:form.html.twig") }}
 
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    {#<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/locales/bootstrap-datepicker.fr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/locales/bootstrap-datepicker.en-GB.min.js"></script>#}
+
+    <script src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
+    <script src="{{ asset('locales/bootstrap-datepicker.fr.min.js') }}"></script>
+
+    <script type="text/javascript">
+        var $prototypeHolder;
+        var $tableRef;
+
+        jQuery(document).ready(function () {
+            initDatePicker();
+
+            // Get the table that holds the collection of products
+            $prototypeHolder = $('table.products-list');
+            $tableRef = document.getElementById('products-list').getElementsByTagName('tbody')[0];
+
+            displayInventory();
+        });
+
+        function initDatePicker() {
+            $('.date-picker').datepicker({
+                format: "yyyy-mm-dd",
+                todayBtn: "linked",
+                language: "fr",
+                autoclose: true,
+                todayHighlight: true
+            });
+        }
+
+        function displayInventory() {
+            {% for product in products %}
+            addProductCommandForm($tableRef, $prototypeHolder, {{ product.getId() }}, '{{ product.getName() }}');
+            {% endfor %}
+        }
+
+        function addProductCommandForm($tableRef, $prototypeHolder, $id, $productName) {
+
+            var newProductForm = buildNewProductForm($prototypeHolder, $id);
+
+            // Insert a row in the table at the last row
+            var newRow = $tableRef.insertRow($tableRef.rows.length);
+
+            // Insert a cell in the row at index 0
+            var cellProductLabel = newRow.insertCell(0);
+
+            var divProductLabel = document.createElement("div");
+            var productLabel = document.createTextNode($productName);
+            divProductLabel.appendChild(productLabel);
+            cellProductLabel.appendChild(divProductLabel);
+
+            var cellProductQuantity = newRow.insertCell(1);
+            var divProductQuantity = document.createElement("div");
+            divProductQuantity.innerHTML = newProductForm;
+            cellProductQuantity.appendChild(divProductQuantity);
+        }
+
+        function buildNewProductForm($prototypeHolder, id) {
+            // Get the data-prototype explained earlier
+            var newForm = $prototypeHolder.attr('data-prototype');
+
+            // You need this only if you didn't set 'label' => false in your tags field in TaskType
+            // Replace '__name__label__' in the prototype's HTML to
+            // instead be a number based on how many items we have
+            newForm = newForm.replace(/__name__/g, id);
+            //.replace(/__name__label__/g, 'Quant' + index)
+            // Replace '__name__' in the prototype's HTML to
+            // instead be a number based on how many items we have
+
+            return newForm;
+        }
+    </script>
 {% endblock %}
