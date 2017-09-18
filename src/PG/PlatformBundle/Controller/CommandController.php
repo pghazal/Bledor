@@ -90,6 +90,13 @@ class CommandController extends Controller
             throw new NotFoundHttpException("La commande recherchée (" . $id . ") n'existe pas.");
         }
 
+        $currentUser = $this->getUser();
+        // Someone tries to edit someone else's command
+        if($command->getClient() !== $currentUser) {
+            $request->getSession()->getFlashBag()->add('error', 'Vous ne pouvez pas modifier cette commande.');
+            return $this->redirectToRoute('pg_platform_order_add');
+        }
+
         $products = $em->getRepository(Product::class)->findAllOrderedByName();
 
         $fakeCommand = new Command();
