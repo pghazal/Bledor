@@ -125,4 +125,9 @@ class ProductCommand
     {
         return $this->quantity;
     }
+
+    function __toString()
+    {
+        return $this->product->__toString() . ' ' . $this->quantity;
+    }
 }

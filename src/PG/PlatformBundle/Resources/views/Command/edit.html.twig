@@ -29,32 +29,34 @@
             // Get the table that holds the collection of products
             $tableRef = document.getElementById('command-products-list').getElementsByTagName('tbody')[0];
 
-            displayInventory();
+            displayFilledInventory();
         });
 
         function initDatePicker() {
-            var dateTime = new Date({{ (dateCommand.getTimestamp() * 1000) }}).toLocaleString();
-            console.log(dateTime);
-
-            var date = dateTime;
-
             $('.datepicker').datepicker({
                 format: "dd-mm-yyyy",
                 todayBtn: "linked",
                 language: "fr",
                 autoclose: true,
-                todayHighlight: true,
-                startDate: date
+                todayHighlight: true
             });
         }
 
-        function displayInventory() {
+        function displayFilledInventory() {
             {% for product in products %}
-            {% if loop.index0 < productsCommand|length and productsCommand[loop.index0] %}
-            addProductCommandForm($tableRef, {{ product.getId() }}, '{{ product.getName() }}', {{ productsCommand[loop.index0].getQuantity() }});
-            {% else %}
-            addProductCommandForm($tableRef, {{ product.getId() }}, '{{ product.getName() }}', 0);
+            {% set quantity = 0 %}
+            {% set break = false %}
+
+            {% for productCommand in productCommands if not break %}
+
+            {% if product == productCommand.getProduct() %}
+            {% set quantity = productCommand.getQuantity() %}
+            {% set break = true %}
             {% endif %}
+
+            {% endfor %}
+
+            addProductCommandForm($tableRef, {{ product.getId() }}, '{{ product.getName() }}', {{ quantity }});
             {% endfor %}
         }
 

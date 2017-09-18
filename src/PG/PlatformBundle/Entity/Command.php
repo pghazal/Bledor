@@ -57,7 +57,7 @@ class Command
     /**
      * @var ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="PG\PlatformBundle\Entity\ProductCommand", mappedBy="command", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="PG\PlatformBundle\Entity\ProductCommand", mappedBy="command", cascade={"persist"}, orphanRemoval=true)
      */
     protected $products;
 

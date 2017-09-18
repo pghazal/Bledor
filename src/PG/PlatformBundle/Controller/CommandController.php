@@ -92,36 +92,62 @@ class CommandController extends Controller
 
         $products = $em->getRepository(Product::class)->findAllOrderedByName();
 
-        $form = $this->createForm(CommandType::class);
+        $fakeCommand = new Command();
+        $fakeCommand->setDate($command->getDate());
+        $form = $this->createForm(CommandType::class, $fakeCommand);
 
         if ($request->isMethod('POST')) {
             $form->handleRequest($request);
             if ($form->isValid()) {
+                // update date
+                $command->setDate($fakeCommand->getDate());
 
                 $productQuantities = $request->request->get('command');
 
                 foreach ($products as $product) {
                     $quantity = intval($productQuantities['products'][$product->getId()]['quantity']);
 
-                    if ($quantity > 0) {
+                    $productCommands = $command->getProducts();
+                    $productFound = false;
+
+                    foreach ($productCommands as $productCommand) {
+                        // Product already into command
+                        if ($productCommand->getProduct() === $product) {
+                            $productFound = true;
+                            // update quantity here
+                            if ($quantity > 0) {
+                                $productCommand->setQuantity($quantity);
+                            } // remove it from command
+                            else {
+                                $command->removeProduct($productCommand);
+                            }
+                            break;
+                        }
+                    } // end productsCommands for loop
+
+                    // create a new item if not updated/found
+                    if (!$productFound && $quantity > 0) {
                         $productCommand = new ProductCommand();
                         $productCommand->setCommand($command);
                         $productCommand->setProduct($product);
                         $productCommand->setQuantity($quantity);
                         $command->addProduct($productCommand);
-                    } else if($quantity <= 0) {
-                        //$command->removeProduct($productCommandToRemove);
                     }
-                }
+                } // end products for loop
 
-            }
+                $em->persist($command);
+                $em->flush();
+
+                $request->getSession()->getFlashBag()->add('notice', 'Votre commande a bien été mise à jour.');
+
+                return $this->redirectToRoute('pg_platform_order_edit', array('id' => $id));
+            } // end isValid()
         }
 
         return $this->render('PGPlatformBundle:Command:edit.html.twig', array(
             'form' => $form->createView(),
             'products' => $products,
-            'productsCommand' => $command->getProducts(),
-            'dateCommand' => $command->getDate()
+            'productCommands' => $command->getProducts(),
         ));
     }
 }
