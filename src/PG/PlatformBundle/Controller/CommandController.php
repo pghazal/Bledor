@@ -92,7 +92,7 @@ class CommandController extends Controller
 
         $currentUser = $this->getUser();
         // Someone tries to edit someone else's command
-        if($command->getClient() !== $currentUser) {
+        if ($command->getClient() !== $currentUser) {
             $request->getSession()->getFlashBag()->add('error', 'Vous ne pouvez pas modifier cette commande.');
             return $this->redirectToRoute('pg_platform_order_add');
         }
@@ -142,10 +142,15 @@ class CommandController extends Controller
                     }
                 } // end products for loop
 
-                $em->persist($command);
-                $em->flush();
+                if ($command->getProducts()->isEmpty()) {
+                    $request->getSession()->getFlashBag()->add('warning', 'Commande vide : annulation des modifications.
+                    Vous pouvez supprimer une commande depuis l\'espace "Mes commandes".');
+                } else {
+                    $em->persist($command);
+                    $em->flush();
 
-                $request->getSession()->getFlashBag()->add('notice', 'Votre commande a bien été mise à jour.');
+                    $request->getSession()->getFlashBag()->add('notice', 'Votre commande a bien été mise à jour.');
+                }
 
                 return $this->redirectToRoute('pg_platform_order_edit', array('id' => $id));
             } // end isValid()
