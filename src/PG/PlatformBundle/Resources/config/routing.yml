@@ -52,3 +52,27 @@ pg_platform_order_edit:
         _controller: PGPlatformBundle:Command:edit
     requirements:
         id: \d+
+
+pg_platform_order_list:
+   path: /order
+   defaults:
+        _controller: PGPlatformBundle:Command:list
+
+pg_platform_order_list_with_end_slash:
+    path:     /order/
+    defaults:
+        _controller: PGPlatformBundle:Command:list
+
+pg_platform_order_delete:
+    path:     /order/delete/{id}
+    defaults:
+        _controller: PGPlatformBundle:Command:delete
+    requirements:
+        id: \d+
+
+pg_platform_order_view:
+    path:     /order/view/{id}
+    defaults:
+        _controller: PGPlatformBundle:Command:view
+    requirements:
+        id: \d+

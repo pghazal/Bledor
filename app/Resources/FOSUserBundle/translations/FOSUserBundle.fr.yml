@@ -97,6 +97,7 @@ form:
     cancel: 'Annuler'
     delete: 'Supprimer'
     edit: 'Modifier'
+    view: 'Voir'
 
 nav:
     home: 'Accueil'
@@ -105,6 +106,8 @@ nav:
     manage_users: 'Gérer les utilisateurs'
     see_profile: 'Voir mon profil'
     order: 'Passer une commande'
+    order_list: 'Voir mes commandes'
+    my_orders: 'Mes commandes'
     add_product: 'Ajouter un produit'
 
 pg:

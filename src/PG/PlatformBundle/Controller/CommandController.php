@@ -148,6 +148,7 @@ class CommandController extends Controller
                     $request->getSession()->getFlashBag()->add('warning', 'Commande vide : annulation des modifications.
                     Vous pouvez supprimer une commande depuis l\'espace "Mes commandes".');
                 } else {
+                    $command->updatedAtDate();
                     $em->persist($command);
                     $em->flush();
 
@@ -162,6 +163,68 @@ class CommandController extends Controller
             'form' => $form->createView(),
             'products' => $products,
             'productCommands' => $command->getProducts(),
+        ));
+    }
+
+    /**
+     * @Security("has_role('ROLE_CLIENT')")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function listAction(Request $request)
+    {
+        $currentUser = $this->getUser();
+
+        $em = $this->getDoctrine()->getManager();
+        $commands = $em->getRepository(Command::class)->findByClient($currentUser->getId());
+
+        return $this->render('PGPlatformBundle:Command:orders.html.twig', array(
+            'commands' => $commands,
+        ));
+    }
+
+    /**
+     * @Security("has_role('ROLE_CLIENT')")
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function deleteAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $commands = $em->getRepository(Command::class)->findWithProductsCommand($id);
+
+        if (empty($commands)) {
+            throw new NotFoundHttpException("La commande recherchée (" . $id . ") n'existe pas.");
+        }
+
+        $command = $commands[0];
+
+        $currentUser = $this->getUser();
+        // Someone tries to remove someone else's command
+        if ($command->getClient() !== $currentUser) {
+            $request->getSession()->getFlashBag()->add('error', 'Vous ne pouvez pas supprimer la commande # ' . $id);
+            return $this->redirectToRoute('pg_platform_order_list');
+        }
+
+        $form = $this->get('form.factory')->create();
+
+        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+            foreach ($command->getProducts() as $productCommand) {
+                $em->remove($productCommand);
+            }
+
+            $em->remove($command);
+            $em->flush();
+
+            $request->getSession()->getFlashBag()->add('info', "Commande supprimée");
+
+            return $this->redirectToRoute('pg_platform_order_list');
+        }
+
+        return $this->render('PGPlatformBundle:Command:delete.html.twig', array(
+            'command' => $command,
+            'form' => $form->createView(),
         ));
     }
 }

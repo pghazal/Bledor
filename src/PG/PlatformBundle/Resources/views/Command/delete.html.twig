@@ -1,0 +1,28 @@
+{% trans_default_domain 'FOSUserBundle' %}
+{% extends "PGPlatformBundle::layout.html.twig" %}
+
+{% block pgplatform_body %}
+
+    <p>
+        <a href="{{ path('pg_platform_order_list') }}" class="btn btn-default">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+            Retour
+        </a>
+    </p>
+
+    <h2>Supprimer une commande</h2>
+
+    <p>
+        Êtes-vous certain de vouloir supprimer la commande numéro {{ command.id }} du {{ command.date.format('d/m/Y') }} ?
+    </p>
+
+    <form action="{{ path('pg_platform_order_delete', {'id': command.id}) }}" method="post">
+        <input type="submit" value="{{ 'form.delete'|trans }}" class="btn btn-danger"/>
+        {{ form_rest(form) }}
+    </form>
+
+    <a href="{{ path('pg_platform_order_list') }}" class="btn btn-default">
+        {{ 'form.cancel'|trans }}
+    </a>
+
+{% endblock %}

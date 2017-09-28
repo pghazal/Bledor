@@ -19,9 +19,9 @@ class ProductController extends Controller
         $products = null;
 
         if ($id < 1) {
-            $products = $em->getRepository('PGPlatformBundle:Product')->findAllWithImage();
+            $products = $em->getRepository(Product::class)->findAllWithImage();
         } else {
-            $products = $em->getRepository('PGPlatformBundle:Product')->findWithImage($id);
+            $products = $em->getRepository(Product::class)->findWithImage($id);
         }
 
         return $this->render('PGPlatformBundle:Product:products.html.twig', array(

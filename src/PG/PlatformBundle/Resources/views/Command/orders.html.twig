@@ -1,0 +1,63 @@
+{% trans_default_domain 'FOSUserBundle' %}
+{% extends "PGPlatformBundle::layout.html.twig" %}
+
+{% block title %}
+    {{ 'nav.my_orders'|trans }} - {{ parent() }}
+{% endblock %}
+
+{% block pgplatform_body %}
+
+    <h1>{{ 'nav.my_orders'|trans }}</h1>
+
+    {% if commands is empty %}
+        Vous n'avez aucune commande effectuée.
+    {% else %}
+
+        <table style="width: 100%; " id="commands-list" class="commands-list">
+            <tr>
+                <th># Numéro de commande</th>
+                <th>Commande du</th>
+                <th>Commande modifiée le</th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+
+            {% for command in commands %}
+                <tr>
+                    <td>{{ command.id }}</td>
+                    <td>{{ command.date.format('d/m/Y') }}</td>
+                    <td>
+                        {% if command.updatedAt is not null %}
+                            {{ command.updatedAt.format('d/m/Y H:i') }}
+                        {% else %}
+                            Non modifiée
+                        {% endif %}
+                    </td>
+                    {% if is_granted('ROLE_CLIENT') %}
+                        <td>
+                            <a href="{{ path('pg_platform_order_edit', {'id': command.id}) }}" class="btn btn-default">
+                                <i class="glyphicon glyphicon-eye-open"></i>
+                                {{ 'form.view'|trans }}
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{{ path('pg_platform_order_edit', {'id': command.id}) }}" class="btn btn-default">
+                                <i class="glyphicon glyphicon-edit"></i>
+                                {{ 'form.edit'|trans }}
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{{ path('pg_platform_order_delete', {'id': command.id}) }}"
+                               class="btn btn-danger">
+                                <i class="glyphicon glyphicon-trash"></i>
+                                {{ 'form.delete'|trans }}
+                            </a>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+{% endblock %}
