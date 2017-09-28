@@ -30,6 +30,13 @@ class CommandController extends Controller
             $form->handleRequest($request);
             if ($form->isValid()) {
                 if ($form->get('submit')->isClicked()) {
+
+                    // Check that client is still allowed to add the order
+                    if (!$this->isAllowedToUpdateOrder($command)) {
+                        $request->getSession()->getFlashBag()->add('warning', 'Vous ne pouvez pas passer une commande pour la date donnée');
+                        return $this->redirectToRoute('pg_platform_order_list');
+                    }
+
                     $currentUser = $this->getUser();
                     $existingCommand = $em->getRepository(Command::class)->findByClientAndDate($currentUser, $command->getDate());
 
@@ -115,6 +122,12 @@ class CommandController extends Controller
                 if ($form->get('submit')->isClicked()) {
                     // update date
                     $command->setDate($fakeCommand->getDate());
+
+                    // Check that client is still allowed to edit the order
+                    if (!$this->isAllowedToUpdateOrder($command)) {
+                        $request->getSession()->getFlashBag()->add('warning', 'Vous ne pouvez pas modifier une commande pour une date ultérieure.');
+                        return $this->redirectToRoute('pg_platform_order_list');
+                    }
 
                     $productQuantities = $request->request->get('command');
 
@@ -219,6 +232,13 @@ class CommandController extends Controller
         $form = $this->get('form.factory')->create();
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+
+            // Check that client is still allowed to delete the order
+            if (!$this->isAllowedToUpdateOrder($command)) {
+                $request->getSession()->getFlashBag()->add('warning', 'Vous ne pouvez pas supprimer une commande déjà passée');
+                return $this->redirectToRoute('pg_platform_order_list');
+            }
+
             foreach ($command->getProducts() as $productCommand) {
                 $em->remove($productCommand);
             }
@@ -257,5 +277,19 @@ class CommandController extends Controller
         return $this->render('PGPlatformBundle:Command:view.html.twig', array(
             'command' => $commands[0],
         ));
+    }
+
+    private function isAllowedToUpdateOrder($command)
+    {
+        $limitDateTime = clone $command->getDate();
+        $limitDateTime->setTime(16, 00);
+
+        $updatingDateTime = new \DateTime('now');
+
+        if ($updatingDateTime > $limitDateTime) {
+            return false;
+        }
+
+        return true;
     }
 }
