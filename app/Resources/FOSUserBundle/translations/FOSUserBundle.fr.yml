@@ -108,6 +108,7 @@ nav:
     order: 'Passer une commande'
     order_list: 'Voir mes commandes'
     my_orders: 'Mes commandes'
+    order_of: 'Commande du'
     add_product: 'Ajouter un produit'
 
 pg:

@@ -1,0 +1,33 @@
+{% trans_default_domain 'FOSUserBundle' %}
+{% extends "PGPlatformBundle::layout.html.twig" %}
+
+{% block title %}
+    {{ 'nav.order_of'|trans }} {{ command.date.format('d/m/Y') }} - {{ parent() }}
+{% endblock %}
+
+{% block pgplatform_body %}
+
+    <p>
+        <a href="{{ path('pg_platform_order_list') }}" class="btn btn-default">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+            Retour
+        </a>
+    </p>
+
+    <h1> {{ 'nav.order_of'|trans }} {{ command.date.format('d/m/Y') }} - Numéro : {{ command.id }}</h1>
+
+    <table style="width: 100%; " id="command-view-list" class="command-view-list">
+        <tr>
+            <th>Produit</th>
+            <th>Quantité</th>
+        </tr>
+
+        {% for productCommand in command.getProducts() %}
+            <tr>
+                <td>{{ productCommand.product }}</td>
+                <td>{{ productCommand.quantity }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

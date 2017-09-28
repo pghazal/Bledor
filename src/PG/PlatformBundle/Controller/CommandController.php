@@ -29,43 +29,47 @@ class CommandController extends Controller
         if ($request->isMethod('POST')) {
             $form->handleRequest($request);
             if ($form->isValid()) {
-                $currentUser = $this->getUser();
-                $existingCommand = $em->getRepository(Command::class)->findByClientAndDate($currentUser, $command->getDate());
+                if ($form->get('submit')->isClicked()) {
+                    $currentUser = $this->getUser();
+                    $existingCommand = $em->getRepository(Command::class)->findByClientAndDate($currentUser, $command->getDate());
 
-                if (empty($existingCommand)) {
-                    $command->setClient($currentUser);
-                    $productQuantities = $request->request->get('command');
+                    if (empty($existingCommand)) {
+                        $command->setClient($currentUser);
+                        $productQuantities = $request->request->get('command');
 
-                    foreach ($products as $product) {
-                        $quantity = intval($productQuantities['products'][$product->getId()]['quantity']);
+                        foreach ($products as $product) {
+                            $quantity = intval($productQuantities['products'][$product->getId()]['quantity']);
 
-                        if ($quantity > 0) {
-                            $productCommand = new ProductCommand();
-                            $productCommand->setCommand($command);
-                            $productCommand->setProduct($product);
-                            $productCommand->setQuantity($quantity);
-                            $command->addProduct($productCommand);
+                            if ($quantity > 0) {
+                                $productCommand = new ProductCommand();
+                                $productCommand->setCommand($command);
+                                $productCommand->setProduct($product);
+                                $productCommand->setQuantity($quantity);
+                                $command->addProduct($productCommand);
+                            }
                         }
-                    }
 
-                    if ($command->getProducts()->isEmpty()) {
-                        $request->getSession()->getFlashBag()->add('warning', 'Votre commande semble vide.');
+                        if ($command->getProducts()->isEmpty()) {
+                            $request->getSession()->getFlashBag()->add('warning', 'Votre commande semble vide.');
+                        } else {
+                            $em->persist($command);
+                            $em->flush();
+
+                            $request->getSession()->getFlashBag()->add('notice', 'Votre commande a bien été prise en compte.');
+                        }
+
+                        return $this->redirectToRoute('pg_platform_order_list');
+
                     } else {
-                        $em->persist($command);
-                        $em->flush();
+                        $request->getSession()->getFlashBag()->add('warning', 'Une commande existe déjà pour cette date.');
 
-                        $request->getSession()->getFlashBag()->add('notice', 'Votre commande a bien été prise en compte.');
+                        return $this->redirectToRoute('pg_platform_order_add');
+                        // Alert message : command exist
+                        // Edit it ?
+                        // New order ?
                     }
-
-                    return $this->redirectToRoute('pg_platform_order_add');
-
-                } else {
-                    $request->getSession()->getFlashBag()->add('warning', 'Une commande existe déjà pour cette date.');
-
-                    return $this->redirectToRoute('pg_platform_order_add');
-                    // Alert message : command exist
-                    // Edit it ?
-                    // New order ?
+                } else if ($form->get('cancel')->isClicked()) {
+                    return $this->redirectToRoute('pg_platform_order_list');
                 }
             }
         }
@@ -108,54 +112,59 @@ class CommandController extends Controller
         if ($request->isMethod('POST')) {
             $form->handleRequest($request);
             if ($form->isValid()) {
-                // update date
-                $command->setDate($fakeCommand->getDate());
+                if ($form->get('submit')->isClicked()) {
+                    // update date
+                    $command->setDate($fakeCommand->getDate());
 
-                $productQuantities = $request->request->get('command');
+                    $productQuantities = $request->request->get('command');
 
-                foreach ($products as $product) {
-                    $quantity = intval($productQuantities['products'][$product->getId()]['quantity']);
+                    foreach ($products as $product) {
+                        $quantity = intval($productQuantities['products'][$product->getId()]['quantity']);
 
-                    $productCommands = $command->getProducts();
-                    $productFound = false;
+                        $productCommands = $command->getProducts();
+                        $productFound = false;
 
-                    foreach ($productCommands as $productCommand) {
-                        // Product already into command
-                        if ($productCommand->getProduct() === $product) {
-                            $productFound = true;
-                            // update quantity here
-                            if ($quantity > 0) {
-                                $productCommand->setQuantity($quantity);
-                            } // remove it from command
-                            else {
-                                $command->removeProduct($productCommand);
+                        foreach ($productCommands as $productCommand) {
+                            // Product already into command
+                            if ($productCommand->getProduct() === $product) {
+                                $productFound = true;
+                                // update quantity here
+                                if ($quantity > 0) {
+                                    $productCommand->setQuantity($quantity);
+                                } // remove it from command
+                                else {
+                                    $command->removeProduct($productCommand);
+                                }
+                                break;
                             }
-                            break;
+                        } // end productsCommands for loop
+
+                        // create a new item if not updated/found
+                        if (!$productFound && $quantity > 0) {
+                            $productCommand = new ProductCommand();
+                            $productCommand->setCommand($command);
+                            $productCommand->setProduct($product);
+                            $productCommand->setQuantity($quantity);
+                            $command->addProduct($productCommand);
                         }
-                    } // end productsCommands for loop
+                    } // end products for loop
 
-                    // create a new item if not updated/found
-                    if (!$productFound && $quantity > 0) {
-                        $productCommand = new ProductCommand();
-                        $productCommand->setCommand($command);
-                        $productCommand->setProduct($product);
-                        $productCommand->setQuantity($quantity);
-                        $command->addProduct($productCommand);
-                    }
-                } // end products for loop
-
-                if ($command->getProducts()->isEmpty()) {
-                    $request->getSession()->getFlashBag()->add('warning', 'Commande vide : annulation des modifications.
+                    if ($command->getProducts()->isEmpty()) {
+                        $request->getSession()->getFlashBag()->add('warning', 'Commande vide : annulation des modifications.
                     Vous pouvez supprimer une commande depuis l\'espace "Mes commandes".');
-                } else {
-                    $command->updatedAtDate();
-                    $em->persist($command);
-                    $em->flush();
+                        return $this->redirectToRoute('pg_platform_order_edit', array('id' => $id));
+                    } else {
+                        $command->updatedAtDate();
+                        $em->persist($command);
+                        $em->flush();
 
-                    $request->getSession()->getFlashBag()->add('notice', 'Votre commande a bien été mise à jour.');
+                        $request->getSession()->getFlashBag()->add('notice', 'Votre commande a bien été mise à jour.');
+
+                        return $this->redirectToRoute('pg_platform_order_list');
+                    }
+                } else if ($form->get('cancel')->isClicked()) {
+                    return $this->redirectToRoute('pg_platform_order_list');
                 }
-
-                return $this->redirectToRoute('pg_platform_order_edit', array('id' => $id));
             } // end isValid()
         }
 
@@ -225,6 +234,28 @@ class CommandController extends Controller
         return $this->render('PGPlatformBundle:Command:delete.html.twig', array(
             'command' => $command,
             'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * @Security("has_role('ROLE_CLIENT')")
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function viewAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $commands = $em->getRepository(Command::class)->findWithProductsCommand($id);
+
+        if (empty($commands)) {
+            $request->getSession()->getFlashBag()->add('info', "Commande inconnue");
+
+            return $this->redirectToRoute('pg_platform_order_list');
+        }
+
+        return $this->render('PGPlatformBundle:Command:view.html.twig', array(
+            'command' => $commands[0],
         ));
     }
 }

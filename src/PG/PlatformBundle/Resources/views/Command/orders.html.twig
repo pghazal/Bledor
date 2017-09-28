@@ -17,7 +17,7 @@
             <tr>
                 <th># Numéro de commande</th>
                 <th>Commande du</th>
-                <th>Commande modifiée le</th>
+                <th>Modifiée le</th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -36,7 +36,7 @@
                     </td>
                     {% if is_granted('ROLE_CLIENT') %}
                         <td>
-                            <a href="{{ path('pg_platform_order_edit', {'id': command.id}) }}" class="btn btn-default">
+                            <a href="{{ path('pg_platform_order_view', {'id': command.id}) }}" class="btn btn-default">
                                 <i class="glyphicon glyphicon-eye-open"></i>
                                 {{ 'form.view'|trans }}
                             </a>
