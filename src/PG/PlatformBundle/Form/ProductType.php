@@ -20,7 +20,8 @@ class ProductType extends AbstractType
         $builder
             ->add('name',          TextType::class)
             ->add('description',   TextareaType::class, array('required' => false))
-            ->add('save',          SubmitType::class);
+            ->add('submit',          SubmitType::class)
+            ->add('cancel',          SubmitType::class);
     }
     
     /**

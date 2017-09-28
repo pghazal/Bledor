@@ -20,7 +20,9 @@
         </div>
     </div>
 
-    {{ form_widget(form.save, {'attr': {'class': 'btn btn-primary'}, 'label': 'pg.validate'|trans}) }}
+    {{ form_widget(form.submit, {'attr': {'class': 'btn btn-primary'}, 'label': 'pg.validate'|trans}) }}
+
+    {{ form_widget(form.cancel, {'attr': {'class': 'btn btn-primary'}, 'label': 'form.cancel'|trans}) }}
 
     {{ form_rest(form) }}
 

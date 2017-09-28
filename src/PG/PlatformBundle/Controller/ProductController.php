@@ -44,11 +44,13 @@ class ProductController extends Controller
             $form->handleRequest($request);
 
             if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($product);
-                $em->flush();
+                if ($form->get('submit')->isClicked()) {
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($product);
+                    $em->flush();
 
-                $request->getSession()->getFlashBag()->add('notice', 'Produit bien enregistrée.');
+                    $request->getSession()->getFlashBag()->add('notice', 'Produit bien enregistrée.');
+                }
 
                 return $this->redirectToRoute('pg_platform_products');
             }
@@ -82,11 +84,13 @@ class ProductController extends Controller
             $form->handleRequest($request);
 
             if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($product);
-                $em->flush();
+                if ($form->get('submit')->isClicked()) {
+                    $em = $this->getDoctrine()->getManager();
+                    $em->persist($product);
+                    $em->flush();
 
-                $request->getSession()->getFlashBag()->add('notice', 'Produit bien modifié.');
+                    $request->getSession()->getFlashBag()->add('notice', 'Produit bien modifié.');
+                }
 
                 return $this->redirectToRoute('pg_platform_products', array('id' => $product->getId()));
             }

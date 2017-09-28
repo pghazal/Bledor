@@ -1,3 +1,4 @@
+{% trans_default_domain 'FOSUserBundle' %}
 {% extends "PGPlatformBundle::layout.html.twig" %}
 
 {% block pgplatform_body %}
@@ -17,5 +18,9 @@
         <input type="submit" value="Supprimer" class="btn btn-danger"/>
         {{ form_rest(form) }}
     </form>
+
+    <a href="{{ path('pg_platform_order_list') }}" class="btn btn-default">
+        {{ 'form.cancel'|trans }}
+    </a>
 
 {% endblock %}
