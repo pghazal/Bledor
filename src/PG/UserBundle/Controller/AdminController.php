@@ -37,7 +37,7 @@ class AdminController extends Controller
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                if ($form->get('save')->isClicked()) {
+                if ($form->get('submit')->isClicked()) {
                     $userManager->updateUser($user);
                     $request->getSession()->getFlashBag()->add('notice', 'Utilisateur enregistré');
                 } else if ($form->get('cancel')->isClicked()) {

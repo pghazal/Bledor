@@ -57,7 +57,7 @@ class UserType extends AbstractType
                 'choices' => $this->rolesHelper->getRoles(),
                 'multiple' => true
             ))
-            ->add('save', SubmitType::class)
+            ->add('submit', SubmitType::class)
             ->add('cancel', SubmitType::class);
     }
 
