@@ -84,11 +84,13 @@ class CommandController extends Controller
     public function editAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-        $command = $em->getRepository(Command::class)->findWithProductsCommand($id);
+        $commands = $em->getRepository(Command::class)->findWithProductsCommand($id);
 
-        if (null === $command) {
+        if (empty($commands)) {
             throw new NotFoundHttpException("La commande recherchée (" . $id . ") n'existe pas.");
         }
+
+        $command = $commands[0];
 
         $currentUser = $this->getUser();
         // Someone tries to edit someone else's command

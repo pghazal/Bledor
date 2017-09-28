@@ -18,7 +18,7 @@ class CommandRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('c.products', 'products')
             ->addSelect('products');
 
-        return $qb->getQuery()->getSingleResult();
+        return $qb->getQuery()->getResult();
     }
 
     public function findByClientAndDate(User $client, \DateTime $date) {
