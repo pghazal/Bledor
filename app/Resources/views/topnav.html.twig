@@ -39,8 +39,7 @@
                             {% endif %}
 
                             {% if is_granted("ROLE_CLIENT") %}
-                                <li><a href="{{ path('pg_platform_order_add') }}">{{ 'nav.order'|trans }}</a></li>
-                                <li><a href="{{ path('pg_platform_order_list') }}">{{ 'nav.order_list'|trans }}</a></li>
+                                <li><a href="{{ path('pg_platform_order_list') }}">{{ 'nav.my_orders'|trans }}</a></li>
                             {% endif %}
                             {% if is_granted('ROLE_GERANT') %}
                                 <li><a href="{{ path('pg_platform_products_add') }}">{{ 'nav.add_product'|trans }}</a>

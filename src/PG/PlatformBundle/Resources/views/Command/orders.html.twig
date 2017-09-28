@@ -7,6 +7,10 @@
 
 {% block pgplatform_body %}
 
+    <a href="{{ path('pg_platform_order_add') }}" class="btn btn-default">
+        {{ 'nav.order'|trans }}
+    </a>
+
     <h1>{{ 'nav.my_orders'|trans }}</h1>
 
     {% if commands is empty %}
