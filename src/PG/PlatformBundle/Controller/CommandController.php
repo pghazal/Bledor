@@ -120,14 +120,21 @@ class CommandController extends Controller
             $form->handleRequest($request);
             if ($form->isValid()) {
                 if ($form->get('submit')->isClicked()) {
-                    // update date
-                    $command->setDate($fakeCommand->getDate());
-
                     // Check that client is still allowed to edit the order
-                    if (!$this->isAllowedToUpdateOrder($command)) {
-                        $request->getSession()->getFlashBag()->add('warning', 'Vous ne pouvez pas modifier une commande pour une date ultérieure.');
+                    if (!$this->isAllowedToUpdateOrder($command) || !$this->isAllowedToUpdateOrder($fakeCommand)) {
+                        $request->getSession()->getFlashBag()->add('warning', 'Erreur : Commande déjà été prise en compte ou commande existante pour la date donnée');
                         return $this->redirectToRoute('pg_platform_order_list');
                     }
+
+                    // Check that there's no actual order for the new date
+                    $existingCommand = $em->getRepository(Command::class)->findByClientAndDate($currentUser, $fakeCommand->getDate());
+                    if(!empty($existingCommand) && $fakeCommand->getDate() !== $command->getDate()) {
+                        $request->getSession()->getFlashBag()->add('warning', 'Une commande existe déjà pour cette date.');
+                        return $this->redirectToRoute('pg_platform_order_list');
+                    }
+
+                    // update date
+                    $command->setDate($fakeCommand->getDate());
 
                     $productQuantities = $request->request->get('command');
 
@@ -200,8 +207,21 @@ class CommandController extends Controller
         $em = $this->getDoctrine()->getManager();
         $commands = $em->getRepository(Command::class)->findByClient($currentUser->getId());
 
+        $mapCommandEnabledDisabled = array();
+
+        if (!empty($commands)) {
+            foreach ($commands as $command) {
+                if($this->isAllowedToUpdateOrder($command)) {
+                    $mapCommandEnabledDisabled[$command->getId()] = true;
+                } else {
+                    $mapCommandEnabledDisabled[$command->getId()] = false;
+                }
+            }
+        }
+
         return $this->render('PGPlatformBundle:Command:orders.html.twig', array(
             'commands' => $commands,
+            'mapCommandEnabledDisabled' => $mapCommandEnabledDisabled,
         ));
     }
 
@@ -246,7 +266,7 @@ class CommandController extends Controller
             $em->remove($command);
             $em->flush();
 
-            $request->getSession()->getFlashBag()->add('info', "Commande supprimée");
+            $request->getSession()->getFlashBag()->add('notice', "Commande supprimée");
 
             return $this->redirectToRoute('pg_platform_order_list');
         }
@@ -269,7 +289,7 @@ class CommandController extends Controller
         $commands = $em->getRepository(Command::class)->findWithProductsCommand($id);
 
         if (empty($commands)) {
-            $request->getSession()->getFlashBag()->add('info', "Commande inconnue");
+            $request->getSession()->getFlashBag()->add('error', "Commande inconnue");
 
             return $this->redirectToRoute('pg_platform_order_list');
         }

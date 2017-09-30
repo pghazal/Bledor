@@ -46,17 +46,34 @@
                             </a>
                         </td>
                         <td>
-                            <a href="{{ path('pg_platform_order_edit', {'id': command.id}) }}" class="btn btn-default">
-                                <i class="glyphicon glyphicon-edit"></i>
-                                {{ 'form.edit'|trans }}
-                            </a>
+                            {% if mapCommandEnabledDisabled[command.id] == true %}
+                                <a href="{{ path('pg_platform_order_edit', {'id': command.id}) }}"
+                                   class="btn btn-default">
+                                    <i class="glyphicon glyphicon-edit"></i>
+                                    {{ 'form.edit'|trans }}
+                                </a>
+                            {% else %}
+                                <a href="{{ path('pg_platform_order_edit', {'id': command.id}) }}"
+                                   class="btn btn-default disabled">
+                                    <i class="glyphicon glyphicon-edit"></i>
+                                    {{ 'form.edit'|trans }}
+                                </a>
+                            {% endif %}
                         </td>
                         <td>
-                            <a href="{{ path('pg_platform_order_delete', {'id': command.id}) }}"
-                               class="btn btn-danger">
-                                <i class="glyphicon glyphicon-trash"></i>
-                                {{ 'form.delete'|trans }}
-                            </a>
+                            {% if mapCommandEnabledDisabled[command.id] == true %}
+                                <a href="{{ path('pg_platform_order_delete', {'id': command.id}) }}"
+                                   class="btn btn-danger">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                    {{ 'form.delete'|trans }}
+                                </a>
+                            {% else %}
+                                <a href="{{ path('pg_platform_order_delete', {'id': command.id}) }}"
+                                   class="btn btn-danger disabled">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                    {{ 'form.delete'|trans }}
+                                </a>
+                            {% endif %}
                         </td>
                     {% endif %}
                 </tr>
