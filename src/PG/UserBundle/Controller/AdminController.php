@@ -6,6 +6,7 @@ use PG\UserBundle\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class AdminController extends Controller
 {
@@ -19,7 +20,7 @@ class AdminController extends Controller
         ));
     }
 
-    /* /**
+    /**
      * @Security("has_role('ROLE_ADMIN')")
      */
     public function editAction(Request $request, $id)
@@ -53,9 +54,9 @@ class AdminController extends Controller
         ));
     }
 
-    /* /**
-      * @Security("has_role('ROLE_ADMIN')")
-      */
+    /**
+     * @Security("has_role('ROLE_ADMIN')")
+     */
     public function deleteAction(Request $request, $id)
     {
         $userManager = $this->get('fos_user.user_manager');
