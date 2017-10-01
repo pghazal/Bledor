@@ -1,0 +1,8 @@
+Order Allow,Deny
+Deny from all
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(.*)$ web/$1 [QSA,L]
+</IfModule>
